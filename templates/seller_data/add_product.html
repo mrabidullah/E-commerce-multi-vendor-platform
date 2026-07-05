@@ -1,0 +1,619 @@
+{% extends "saller_header_footer.html" %}
+
+{% block content %}
+
+<style>
+    /* ========== ENTERPRISE LEVEL DESIGN ========== */
+    
+    /* Smooth animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .animate-fade-up {
+        animation: fadeInUp 0.5s ease-out forwards;
+    }
+    
+    /* Modern Card Styles */
+    .pro-card {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(0px);
+        border-radius: 28px;
+        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .pro-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 24px 48px -15px rgba(0, 0, 0, 0.12);
+    }
+    
+    .dark .pro-card {
+        background: rgba(30, 41, 59, 0.95);
+        backdrop-filter: blur(0px);
+    }
+    
+    /* Input Fields - Premium Style */
+    .pro-input {
+        width: 100%;
+        padding: 0.85rem 1.2rem;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 18px;
+        font-size: 0.9rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        background: #ffffff;
+        outline: none;
+        font-weight: 500;
+    }
+    
+    .pro-input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        transform: translateY(-1px);
+    }
+    
+    .dark .pro-input {
+        background: #1e293b;
+        border-color: #334155;
+        color: #f1f5f9;
+    }
+    
+    .dark .pro-input:focus {
+        border-color: #818cf8;
+        box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.15);
+    }
+    
+    /* Labels */
+    .pro-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #475569;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .dark .pro-label {
+        color: #94a3b8;
+    }
+    
+    /* Section Divider */
+    .pro-divider {
+        display: flex;
+        align-items: center;
+        margin: 1.75rem 0 1.5rem 0;
+    }
+    
+    .pro-divider-line {
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #e2e8f0, #e2e8f0, transparent);
+    }
+    
+    .pro-divider-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0 1rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #94a3b8;
+    }
+    
+    /* Checkbox - Premium */
+    .pro-checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        cursor: pointer;
+        padding: 10px 12px;
+        border-radius: 14px;
+        transition: all 0.2s;
+        background: #f8fafc;
+    }
+    
+    .pro-checkbox:hover {
+        background: #f1f5f9;
+    }
+    
+    .dark .pro-checkbox {
+        background: #0f172a;
+    }
+    
+    .dark .pro-checkbox:hover {
+        background: #1e293b;
+    }
+    
+    .pro-checkbox input {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        accent-color: #6366f1;
+        cursor: pointer;
+    }
+    
+    /* File Upload Zone - Premium */
+    .pro-upload-zone {
+        border: 2px dashed #cbd5e1;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #fafcff 0%, #ffffff 100%);
+        transition: all 0.3s;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .pro-upload-zone:hover {
+        border-color: #6366f1;
+        background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+        transform: scale(0.99);
+    }
+    
+    .dark .pro-upload-zone {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        border-color: #334155;
+    }
+    
+    .dark .pro-upload-zone:hover {
+        border-color: #818cf8;
+    }
+    
+    /* Submit Button */
+    .pro-submit {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        color: white;
+        padding: 0.9rem 2rem;
+        border-radius: 40px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pro-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+    }
+    
+    .dark .pro-submit {
+        background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+    }
+    
+    .dark .pro-submit:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    }
+    
+    /* Alert/Warning Cards */
+    .pro-alert-danger {
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border-left: 4px solid #ef4444;
+        border-radius: 16px;
+    }
+    
+    .pro-alert-info {
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border-left: 4px solid #3b82f6;
+        border-radius: 16px;
+    }
+    
+    /* Badges */
+    .pro-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+    
+    /* Metric Cards */
+    .pro-metric {
+        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        border-radius: 20px;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        transition: all 0.2s;
+    }
+    
+    .pro-metric:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Responsive */
+    @media (max-width: 640px) {
+        .pro-card {
+            border-radius: 20px;
+        }
+        .pro-input {
+            padding: 0.7rem 1rem;
+            font-size: 0.85rem;
+        }
+        .pro-checkbox span {
+            font-size: 11.5px;
+        }
+    }
+    
+    /* Loading State */
+    .loading-spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        display: inline-block;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Floating Label Effect */
+    .input-group {
+        position: relative;
+    }
+    
+    /* Image Preview */
+    #image-preview {
+        max-height: 200px;
+        width: auto;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    /* Drag & Drop Highlight */
+    .drag-over {
+        border-color: #6366f1 !important;
+        background: rgba(99, 102, 241, 0.05) !important;
+    }
+</style>
+
+<!-- Main Container -->
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10" id="main-page">
+    
+    <!-- Page Header -->
+    <div class="mb-8 text-center sm:text-left">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-400 bg-clip-text text-transparent">
+                    Create New Listing
+                </h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Fill in the details below to add a new product to your store</p>
+            </div>
+            <div class="flex gap-2">
+                <span class="pro-badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">verified</span>
+                    Verified Seller
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Flash Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div id="msg" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 animate-fade-up">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 text-center max-w-sm mx-4 shadow-2xl">
+                    <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    <p class="text-slate-800 dark:text-white font-semibold text-lg">{{ message }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- ========== POLICY WARNING SECTION ========== -->
+    <div class="animate-fade-up" style="animation-delay: 0.05s">
+        <!-- Warning Header -->
+        <div class="mb-4">
+            <div class="flex items-start gap-3 p-4 pro-alert-danger">
+                <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <div>
+                    <p class="text-red-800 dark:text-red-300 font-semibold text-sm sm:text-base">
+                        ⚠️ We take fraud very seriously. To protect our community, we have strict policies against listing duplicate, counterfeit, or fraudulent products.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Policy Box -->
+        <div class="mb-6 p-5 pro-alert-danger">
+            <p class="text-red-800 dark:text-red-300 font-semibold text-sm mb-3">
+                Listing duplicate, counterfeit, or fraudulent products is a <strong>serious violation</strong> of our Seller Terms. The following actions will result in an <strong>immediate 1-year account suspension</strong>:
+            </p>
+            
+            <ul class="space-y-2 mb-4">
+                <li class="flex items-start gap-2 text-red-700 dark:text-red-300 text-sm">
+                    <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                    <span>Submitting a product already listed under another seller or account</span>
+                                </li>
+                                <li class="flex items-start gap-2 text-red-700 dark:text-red-300 text-sm">
+                                    <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                    <span>Copying product images, descriptions, or prices from other sellers</span>
+                                </li>
+                                <li class="flex items-start gap-2 text-red-700 dark:text-red-300 text-sm">
+                                    <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                    <span>Misrepresenting brand, origin, or product condition</span>
+                                </li>
+                                <li class="flex items-start gap-2 text-red-700 dark:text-red-300 text-sm">
+                                    <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                    <span>Creating multiple accounts to bypass previous bans</span>
+                                </li>
+                            </ul>
+                            
+                            <div class="flex flex-wrap items-center gap-3 bg-red-100/50 dark:bg-red-950/30 rounded-xl p-3">
+                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                <p class="text-red-700 dark:text-red-300 text-xs sm:text-sm font-medium">All submissions are reviewed by our anti-fraud system. Suspicious activity is flagged automatically and reported to our trust & safety team.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ========== PRIVACY NOTICE ========== -->
+                    <div class="mb-6 p-4 pro-alert-info animate-fade-up" style="animation-delay: 0.1s">
+                        <div class="flex gap-3">
+                            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            <div>
+                                <p class="text-blue-800 dark:text-blue-300 font-semibold text-sm">Your data & privacy</p>
+                                <p class="text-blue-700 dark:text-blue-400 text-xs sm:text-sm mt-1">Product data you submit is stored securely and used only to display listings to buyers. Your seller identity is never shared publicly without consent. By listing a product, you agree to our <a href="#" class="underline font-medium">Seller Privacy Policy</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ========== MAIN FORM ========== -->
+                    <div class="pro-card animate-fade-up" style="animation-delay: 0.15s">
+                        <form method="POST" enctype="multipart/form-data" id="productForm">
+                            {% csrf_token %}
+                            
+                            <div class="p-5 sm:p-7">
+                                <!-- Product Identity Section -->
+                                <div class="pro-divider">
+                                    <div class="pro-divider-line"></div>
+                                    <div class="pro-divider-content">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                                        <span>Product Identity</span>
+                                    </div>
+                                    <div class="pro-divider-line"></div>
+                                </div>
+                                
+                                <!-- Category -->
+                                <div class="mb-5">
+                                    <label class="pro-label">
+                                        <span class="text-red-500">*</span> Category
+                                    </label>
+                                    <select name="category" id="category-select" class="pro-input cursor-pointer" required>
+                                        <option value="" disabled selected>— Select a category —</option>
+                                        <option value="Electronics">📱 Electronics</option>
+                                        <option value="Fashion">👕 Fashion</option>
+                                        <option value="Footwear">👟 Footwear</option>
+                                        <option value="Beauty">💄 Beauty</option>
+                                        <option value="Home">🏠 Home</option>
+                                        <option value="Kitchen">🍳 Kitchen</option>
+                                        <option value="Health">💊 Health</option>
+                                        <option value="Sports">⚽ Sports</option>
+                                        <option value="Kids">🧸 Kids</option>
+                                        <option value="Automotive">🚗 Automotive</option>
+                                        <option value="Books">📚 Books</option>
+                                        <option value="Groceries">🛒 Groceries</option>
+                                        <option value="Jewelry">💍 Jewelry</option>
+                                        <option value="Pets">🐾 Pets</option>
+                                        <option value="Tools">🔧 Tools</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label class="pro-label"><span class="text-red-500">*</span> Product Name</label>
+                                        <input type="text" name="name" class="pro-input" placeholder="e.g., Wireless Bluetooth Headphones" required>
+                                    </div>
+                                    <div>
+                                        <label class="pro-label"><span class="text-red-500">*</span> Brand</label>
+                                        <input type="text" name="brand" class="pro-input" placeholder="e.g., Sony, Nike, Apple" required>
+                                    </div>
+                                </div>
+                                
+                                <!-- Pricing & Inventory Section -->
+                                <div class="pro-divider">
+                                    <div class="pro-divider-line"></div>
+                                    <div class="pro-divider-content">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        <span>Pricing & Inventory</span>
+                                    </div>
+                                    <div class="pro-divider-line"></div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                                    <div>
+                                        <label class="pro-label"><span class="text-red-500">*</span> Price (PKR)</label>
+                                        <div class="relative">
+                                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">₨</span>
+                                            <input type="number" name="price" step="0.01" min="0" class="pro-input pl-8" placeholder="0.00" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="pro-label"><span class="text-red-500">*</span> Stock Quantity</label>
+                                        <input type="number" name="stock" min="0" class="pro-input" placeholder="Available units" required>
+                                    </div>
+                                </div>
+                                
+                                <!-- Description Section -->
+                                <div class="pro-divider">
+                                    <div class="pro-divider-line"></div>
+                                    <div class="pro-divider-content">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                                        <span>Description</span>
+                                    </div>
+                                    <div class="pro-divider-line"></div>
+                                </div>
+                                
+                                <div class="mb-5">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <label class="pro-label mb-0"><span class="text-red-500">*</span> Product Description</label>
+                                        <span id="desc-count" class="text-xs text-slate-400 font-mono">0 / 1000</span>
+                                    </div>
+                                    <textarea name="description" rows="5" maxlength="1000" oninput="updateCount(this)" class="pro-input resize-none" placeholder="Describe your product in detail: features, specifications, condition, what's included, etc." required></textarea>
+                                    <p class="text-xs text-slate-400 mt-2">✨ Tip: A detailed description helps customers make informed decisions</p>
+                                </div>
+                                
+                                <!-- Image Upload Section -->
+                                <div class="pro-divider">
+                                    <div class="pro-divider-line"></div>
+                                    <div class="pro-divider-content">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                        <span>Product Image</span>
+                                    </div>
+                                    <div class="pro-divider-line"></div>
+                                </div>
+                                
+                                <div class="mb-5">
+                                    <label class="pro-label"><span class="text-red-500">*</span> Upload Image</label>
+                                    <label for="image-input" class="pro-upload-zone block text-center p-8" id="uploadZone">
+                                        <input type="file" name="image" id="image-input" accept="image/*" class="hidden" onchange="previewImage(this)" required>
+                                        <div id="upload-placeholder">
+                                            <svg class="w-12 h-12 text-slate-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                            <p class="text-slate-500 font-medium">Click to upload or drag & drop</p>
+                                            <p class="text-slate-400 text-xs mt-1">PNG, JPG, WEBP — Max 5MB</p>
+                                        </div>
+                                        <img id="image-preview" src="" alt="Preview" class="hidden mx-auto rounded-xl max-h-48 object-contain" />
+                                    </label>
+                                    <p id="image-name" class="text-xs text-slate-500 mt-2 text-center hidden"></p>
+                                </div>
+                                
+                                <!-- Legal Declarations -->
+                                <div class="pro-divider">
+                                    <div class="pro-divider-line"></div>
+                                    <div class="pro-divider-content">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                        <span>Declarations</span>
+                                    </div>
+                                    <div class="pro-divider-line"></div>
+                                </div>
+                                
+                                <div class="space-y-3 mb-6">
+                                    <label class="pro-checkbox">
+                                        <input type="checkbox" name="confirm_original" required>
+                                        <span class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">I confirm this product is <strong class="text-emerald-600 dark:text-emerald-400">original and not a duplicate</strong> of any other listing on this platform.</span>
+                                    </label>
+                                    <label class="pro-checkbox">
+                                        <input type="checkbox" name="confirm_authentic" required>
+                                        <span class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">I confirm this product is <strong class="text-emerald-600 dark:text-emerald-400">authentic</strong> and all provided information is accurate.</span>
+                                    </label>
+                                    <label class="pro-checkbox">
+                                        <input type="checkbox" name="confirm_policy" required>
+                                        <span class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">I have read and agree to the <a href="#" class="text-indigo-600 underline">Seller Terms</a>, <a href="#" class="text-indigo-600 underline">Privacy Policy</a>, and understand that fraud results in a <strong class="text-red-600">1-year account ban</strong>.</span>
+                                    </label>
+                                </div>
+                                
+                                <!-- Submit Section -->
+                                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-5 border-t border-slate-200 dark:border-slate-700">
+                                    <div class="flex items-center gap-2 text-xs text-slate-500">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                        <span>Data encrypted & secure</span>
+                                    </div>
+                                    <button type="submit" class="pro-submit" id="submitBtn">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        Publish Listing
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="text-center mt-8">
+                        <p class="text-xs text-slate-400">
+                            Listings are reviewed within 24 hours. Questions? 
+                            <a href="mailto:support@marketplace.com" class="text-indigo-600 underline">support@marketplace.com</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <script>
+                    // Character counter
+                    function updateCount(el) {
+                        const countSpan = document.getElementById('desc-count');
+                        if (countSpan) countSpan.textContent = el.value.length + ' / 1000';
+                    }
+                    
+                    // Image preview
+                    function previewImage(input) {
+                        const file = input.files[0];
+                        if (!file) return;
+                        
+                        const placeholder = document.getElementById('upload-placeholder');
+                        const preview = document.getElementById('image-preview');
+                        const nameLine = document.getElementById('image-name');
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            preview.src = e.target.result;
+                            placeholder.classList.add('hidden');
+                            preview.classList.remove('hidden');
+                            nameLine.textContent = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+                            nameLine.classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                    
+                    // Drag & drop functionality
+                    const uploadZone = document.getElementById('uploadZone');
+                    const fileInput = document.getElementById('image-input');
+                    
+                    if (uploadZone) {
+                        uploadZone.addEventListener('dragover', (e) => {
+                            e.preventDefault();
+                            uploadZone.classList.add('drag-over');
+                        });
+                        
+                        uploadZone.addEventListener('dragleave', () => {
+                            uploadZone.classList.remove('drag-over');
+                        });
+                        
+                        uploadZone.addEventListener('drop', (e) => {
+                            e.preventDefault();
+                            uploadZone.classList.remove('drag-over');
+                            const file = e.dataTransfer.files[0];
+                            if (file && file.type.startsWith('image/')) {
+                                fileInput.files = e.dataTransfer.files;
+                                previewImage(fileInput);
+                            }
+                        });
+                    }
+                    
+                    // Auto-hide messages
+                    setTimeout(() => {
+                        const msg = document.getElementById('msg');
+                        if (msg) msg.style.display = 'none';
+                    }, 3000);
+                </script>
+                
+                {% endblock content %}

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+    <title>BUY ZON | Tier-1 Marketplace - Responsive Toggle Header</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '375px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                        '2xl': '1536px',
+                    },
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "primary-fixed": "#ffdbce",
+                        "on-secondary-container": "#11278e",
+                        "on-secondary-fixed-variant": "#293ca0",
+                        "background": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "primary-container": "#ff6000",
+                        "surface-container-highest": "#e2e2e2",
+                        "inverse-primary": "#ffb598",
+                        "surface-container": "#eeeeee",
+                        "inverse-on-surface": "#f1f1f1",
+                        "secondary-fixed-dim": "#bac3ff",
+                        "tertiary-fixed": "#d1e4ff",
+                        "tertiary-container": "#0098fd",
+                        "inverse-surface": "#2f3131",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary-fixed": "#370e00",
+                        "surface-dim": "#dadada",
+                        "on-tertiary-fixed": "#001d36",
+                        "outline": "#8f7065",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#0061a4",
+                        "on-tertiary-container": "#002e53",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#dee0ff",
+                        "surface-tint": "#a63c00",
+                        "secondary-container": "#8596ff",
+                        "on-tertiary-fixed-variant": "#00497d",
+                        "primary-fixed-dim": "#ffb598",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#00105c",
+                        "on-primary-container": "#531a00",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-variant": "#e2e2e2",
+                        "on-surface-variant": "#5b4137",
+                        "secondary": "#4355b9",
+                        "primary": "#a63c00",
+                        "tertiary-fixed-dim": "#9fcaff",
+                        "on-background": "#1a1c1c",
+                        "surface": "#f9f9f9",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#e3bfb1",
+                        "surface-bright": "#f9f9f9",
+                        "on-primary-fixed-variant": "#7e2c00"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Inter"],
+                        body: ["Inter"],
+                        label: ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f9f9f9;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Mobile Menu Animation */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 280px;
+            max-width: 85%;
+            background-color: #ffffff;
+            box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+            z-index: 1000;
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+        .menu-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        body.menu-open {
+            overflow: hidden;
+        }
+        
+        /* Dark mode styles */
+        html.dark body {
+            background-color: #121212;
+        }
+        html.dark .bg-background {
+            background-color: #121212;
+        }
+        html.dark .bg-surface-container-lowest {
+            background-color: #1e1e1e;
+        }
+        html.dark .bg-surface-container {
+            background-color: #2a2a2a;
+        }
+        html.dark .text-on-surface {
+            color: #e0e0e0;
+        }
+        html.dark .border-outline-variant\/15 {
+            border-color: rgba(255,255,255,0.1);
+        }
+        html.dark .mobile-menu {
+            background-color: #1e1e1e;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+
+<!-- ============================================= -->
+<!-- MOBILE SIDEBAR MENU (TOGGLE) - MUST BE PRESENT -->
+<!-- ============================================= -->
+<div id="mobileMenuOverlay" class="menu-overlay"></div>
+<div id="mobileMenu" class="mobile-menu flex flex-col">
+    <!-- Menu Header -->
+    <div class="flex items-center justify-between p-5 border-b border-outline-variant/15">
+        <h1 class="
+    text-2xl
+    sm:text-3xl
+    md:text-4xl
+    lg:text-5xl
+    font-black
+    tracking-[-1px]
+    sm:tracking-[-2px]
+    md:tracking-[-3px]
+    bg-gradient-to-r
+    from-purple-400
+    via-pink-500
+    to-orange-400
+    bg-clip-text
+    text-transparent
+    hover:scale-105
+    transition-all
+    duration-300
+    ease-in-out
+    cursor-pointer
+    select-none
+    leading-tight
+    text-center
+    sm:text-left
+">
+    SHOP
+    <span class="
+        bg-gradient-to-r
+        from-purple-300
+        via-pink-300
+        to-orange-500
+        bg-clip-text
+        text-transparent
+    ">
+        CENTER
+    </span>
+</h1>
+        <button id="closeMenu" class="p-2 rounded-full hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    
+    <!-- User Info Section (Mobile) -->
+    <div class="p-5 border-b border-outline-variant/15 flex items-center gap-3">
+    
+     
+    </div>
+    
+    <!-- Search Bar (Mobile) -->
+    
+    <div class="p-5 border-b border-outline-variant/15">
+
+    <form action="{% url 'search' %}" method="GET">
+
+        <div class="flex items-center bg-surface-container-low rounded-lg px-3 py-2 gap-2">
+
+            <span class="material-symbols-outlined opacity-50 text-base">
+                search
+            </span>
+
+            <input
+                class="bg-transparent border-none focus:ring-0 w-full text-sm"
+                name="q"
+                placeholder="Search products..."
+                type="text"
+            />
+
+            <button
+                type="submit"
+                class="bg-primary-container text-on-primary-container px-3 py-1 rounded-md font-bold text-xs"
+            >
+                Go
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+    <!-- Navigation Links -->
+    <div class="flex-1 overflow-y-auto py-4">
+        <div class="px-4 space-y-1">
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-surface-container transition-colors">
+                <span class="material-symbols-outlined text-primary">home</span>
+                <span class="font-medium">Home</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-surface-container transition-colors">
+                <span class="material-symbols-outlined text-primary">devices</span>
+                <span class="font-medium">Electronics</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-surface-container transition-colors">
+                <span class="material-symbols-outlined text-primary">apparel</span>
+                <span class="font-medium">Fashion</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-surface-container transition-colors">
+                <span class="material-symbols-outlined text-primary">chair</span>
+                <span class="font-medium">Home & Living</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-surface-container transition-colors">
+                <span class="material-symbols-outlined text-primary">directions_car</span>
+                <span class="font-medium">Motors</span>
+            </a>
+           
+        </div>
+        
+        <div class="px-4 mt-6">
+            <div class="h-px bg-outline-variant/20 my-4"></div>
+            <div class="space-y-1">
+                <a href="{% url 'authentication:signup' %}" class="flex items-center gap-3 px-3 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">Seller Center</a>
+                <a href="{% url 'about' %}" class="flex items-center gap-3 px-3 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">About Us</a>
+                <a href="{% url 'contact:contact'%}" class="flex items-center gap-3 px-3 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">Contact Us</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">Sign Out</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle in Mobile Menu -->
+    <div class="p-5 border-t border-outline-variant/15">
+        <button id="mobileThemeToggle" class="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors">
+            <span class="material-symbols-outlined">dark_mode</span>
+            <span class="text-sm font-medium">Switch Theme</span>
+        </button>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- HEADER -->
+<!-- ============================================= -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-background shadow-[0px_4px_20px_rgba(26,28,28,0.06)]">
+    <!-- Top Bar - hidden on mobile, visible from sm -->
+    <div class="bg-surface-container-low border-b border-outline-variant/15 hidden sm:block">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-between items-center text-[0.7rem] md:text-[0.75rem] font-medium text-on-surface-variant">
+            <div class="flex gap-3 md:gap-6">
+                <a href="{% url 'authentication:signup' %}" class="flex items-center gap-3 px-3 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">Seller Center</a>
+                <a  href="{% url 'about' %}" class="flex items-center gap-3 px-3 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">About Us</a>
+                <a  href="{% url 'contact:contact'%}" class="flex items-center gap-3 px-3 py-2 text-sm text-on-surface-variant hover:text-primary transition-colors">Contact Us</a>
+            </div>
+            <div class="flex gap-2 md:gap-4 items-center">
+                
+                <a href="{% url 'authentication:login' %}"> <span class=" hover:text-primary cursor-pointer whitespace-nowrap">Sign In</span></a>
+                <button id="themeToggle" class="ml-2 flex items-center gap-1 bg-surface-container-highest px-2 py-1 rounded-full hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined text-sm" id="themeIcon">dark_mode</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation with Hamburger Toggle -->
+    <nav class="bg-surface-container-lowest">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4">
+            <div class="flex items-center justify-between gap-3">
+                <!-- Logo -->
+ <h1 class="
+    text-xl
+    sm:text-2xl
+    md:text-3xl
+    lg:text-4xl
+    font-black
+    tracking-[-1px]
+    sm:tracking-[-2px]
+    md:tracking-[-3px]
+    bg-gradient-to-r
+    from-purple-400
+    via-pink-500
+    to-orange-400
+    bg-clip-text
+    text-transparent
+    hover:scale-105
+    transition-all
+    duration-300
+    ease-in-out
+    cursor-pointer
+    select-none
+    leading-tight
+    text-center
+    sm:text-left
+">
+    BUY
+    <span class="
+        bg-gradient-to-r
+        from-purple-300
+        via-pink-300
+        to-orange-500
+        bg-clip-text
+        text-transparent
+    ">
+        ZON
+    </span>
+</h1>
+                
+                <!-- Search Bar - visible on tablet/desktop -->
+            <form action="{% url 'search' %}" method="GET" class="hidden md:flex flex-1 min-w-[200px] lg:min-w-[280px]">
+
+    <div class="flex items-center w-full bg-surface-container-low rounded-lg px-3 py-2 gap-2 group focus-within:ring-2 ring-primary/20">
+
+        <span class="material-symbols-outlined opacity-50 text-base">
+            search
+        </span>
+
+        <input
+            class="bg-transparent border-none focus:ring-0 w-full text-sm md:text-base placeholder:text-xs outline-none"
+            placeholder="Search luxury electronics..."
+            type="text"
+            name="q"
+        />
+
+       
+
+        <button
+            type="submit"
+            class="bg-primary-container text-on-primary-container px-3 md:px-4 py-1.5 rounded-md font-bold text-xs whitespace-nowrap"
+        >
+            Search
+        </button>
+
+    </div>
+
+</form>
+                
+                <!-- Right Icons + Hamburger Menu Toggle -->
+                <div class="flex items-center gap-3 md:gap-5 shrink-0">
+                    
+                    <!-- HAMBURGER TOGGLE BUTTON -->
+                    <button id="menuToggle" class="block md:hidden p-2 rounded-lg hover:bg-surface-container transition-colors">
+                        <span class="material-symbols-outlined text-2xl">menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Category Tabs -->
+    <div class="bg-surface-container-lowest border-t border-outline-variant/15 overflow-x-auto">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-2">
+            <div class="flex gap-4 md:gap-8 text-[0.7rem] sm:text-[0.75rem] md:text-[0.8125rem] font-semibold whitespace-nowrap">
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'home' %}">Home</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'electronics_page' %}">Electronics</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'fashion_page' %}">Fashion</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'beauty_page' %}">Beauty</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'health_page' %}">Health & Fitness</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'jewelry_page' %}">Jewelry & Accessories</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'automotive_page' %}">Automotive</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'electronics_page' %}">Electronics</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'home_page' %}">Home & living</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'tools_page' %}">Tools & Home improvement</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'books_page' %}">Books & Stationery</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'kids_page' %}">Kids & Toys</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'kitchen_page' %}">Kitchen & Dining</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'pets_page' %}">Pets</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'footwear_page' %}">Footwear</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'groceries_page' %}">Grocery</a>
+                <a class="text-on-surface opacity-80 hover:text-primary transition-all" href="{% url 'sports_page' %}">Sports & Outdoors</a>
+
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN CONTENT BLOCK - Child pages will inject content here -->
+
+    {% block base %}
+    <!-- Default content goes here - override in child templates -->
+    {% endblock base %}
+
+{% include 'footer.html' %}

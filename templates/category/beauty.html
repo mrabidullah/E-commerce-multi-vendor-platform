@@ -1,0 +1,409 @@
+{% extends "header_footer.html" %}
+{% load static %}
+
+{% block base %}
+
+<!-- Additional CSS for products page -->
+<style>
+    /* Compact filter sidebar - reduced width */
+    .filter-section {
+        transition: all 0.2s ease;
+    }
+    
+    /* Product card hover effects */
+    .product-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Star fill style */
+    .star-filled {
+        font-variation-settings: 'FILL' 1;
+        color: #fbbf24;
+    }
+    
+    /* Custom scrollbar for filter */
+    .filter-scroll {
+        scrollbar-width: thin;
+    }
+    .filter-scroll::-webkit-scrollbar {
+        width: 3px;
+    }
+    .filter-scroll::-webkit-scrollbar-track {
+        background: #e5e7eb;
+        border-radius: 3px;
+    }
+    .filter-scroll::-webkit-scrollbar-thumb {
+        background: #a63c00;
+        border-radius: 3px;
+    }
+    
+    /* Dark mode */
+    html.dark .filter-scroll::-webkit-scrollbar-track {
+        background: #374151;
+    }
+    
+    /* Mobile filter */
+    @media (max-width: 640px) {
+        .filter-sidebar-mobile {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        .filter-sidebar-mobile.open {
+            transform: translateX(0);
+        }
+    }
+    
+    /* Line clamp */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+
+<main class="mt-32 sm:mt-38 md:mt-46 lg:mt-56 xlg:64 mx-auto px-3 sm:px-5 lg:px-6 pb-10 sm:pb-12 md:pb-16">
+    
+    <!-- Mobile Filter Toggle -->
+    <div class="lg:hidden mb-3">
+        <button id="mobileFilterBtn" class="w-full flex items-center justify-between bg-surface-container-lowest dark:bg-[#1e1e1e] rounded-lg p-2.5 shadow-sm">
+            <span class="font-medium text-sm flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">filter_list</span>
+                Filters
+            </span>
+            <span class="flex items-center gap-1 text-xs text-on-surface-variant">
+                <span class="material-symbols-outlined text-sm">tune</span>
+                Refine
+            </span>
+        </button>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-5 lg:gap-6">
+        
+        <!-- ============================================ -->
+        <!-- NARROW SIDENAV BAR - With Proper Category Icons -->
+        <!-- ============================================ -->
+        <aside id="filterSidebar" class="lg:w-40 flex-shrink-0 fixed lg:sticky top-24 lg:top-28 left-0 h-full lg:h-auto w-58 lg:w-40 bg-surface-container-lowest dark:bg-[#1e1e1e] lg:bg-transparent z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-xl lg:shadow-none rounded-r-xl lg:rounded-lg">
+            <div class="p-3 lg:p-0 h-full overflow-y-auto lg:overflow-visible filter-scroll">
+                <!-- Close button for mobile -->
+                <div class="flex justify-between items-center lg:hidden mb-3 pb-2 border-b border-outline-variant/15">
+                    <h2 class="font-semibold text-base">Filters</h2>
+                    <button id="closeFilterBtn" class="p-1.5 rounded-full hover:bg-surface-container">
+                        <span class="material-symbols-outlined text-base">close</span>
+                    </button>
+                </div>
+                
+<div class="bg-surface-container-lowest dark:bg-[#1e1e1e] lg:bg-transparent rounded-lg p-3 lg:p-0 space-y-4">
+                    <!-- Header -->
+                    <div class="pb-2 border-b border-outline-variant/15">
+                        <h2 class="text-primary font-headline font-bold text-xs uppercase tracking-wider">Refine</h2>
+                        <p class="text-on-surface-variant text-[11px] font-body mt-0.5">All products</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Categories with Proper Icons -->
+                        <div class="filter-section">
+                            <h3 class="font-headline font-semibold text-[11px] mb-2 uppercase tracking-wider text-on-surface-variant flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">category</span>
+                                Categories
+                            </h3>
+                            <div class="flex flex-col gap-y-1.5">
+                                <a class="flex items-center gap-x-2 text-primary font-medium text-xs font-body py-1.5 px-2 bg-surface-container dark:bg-gray-800 rounded-md transition-all" href="{% url 'electronics_page' %}">
+                                    <span class="material-symbols-outlined text-sm">electrical_services</span>
+                                    Electronics
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'fashion_page' %}">
+                                    <span class="material-symbols-outlined text-sm">checkroom</span>
+                                    Fashion
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'footwear_page' %}">
+                                    <span class="material-symbols-outlined text-sm">footprint</span>
+                                    Footwear
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'beauty_page' %}">
+                                    <span class="material-symbols-outlined text-sm">spa</span>
+                                    Beauty
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'home_page' %}">
+                                    <span class="material-symbols-outlined text-sm">home</span>
+                                    Home & Living
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'kitchen_page' %}">
+                                    <span class="material-symbols-outlined text-sm">restaurant</span>
+                                    Kitchen & Dining
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'health_page' %}">
+                                    <span class="material-symbols-outlined text-sm">health_and_safety</span>
+                                    Health & Beauty
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'sports_page' %}">
+                                    <span class="material-symbols-outlined text-sm">sports_score</span>
+                                    Sports & Outdoors
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'kids_page' %}">
+                                    <span class="material-symbols-outlined text-sm">toys</span>
+                                    Kids & Toys
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'automotive_page' %}">
+                                    <span class="material-symbols-outlined text-sm">directions_car</span>
+                                    Automotive
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'books_page' %}">
+                                    <span class="material-symbols-outlined text-sm">menu_book</span>
+                                    Books & Stationery
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'groceries_page' %}">
+                                    <span class="material-symbols-outlined text-sm">shopping_cart</span>
+                                    Groceries
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'jewelry_page' %}">
+                                    <span class="material-symbols-outlined text-sm">diamond</span>
+                                    Jewelry & Accessories
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'pets_page' %}">
+                                    <span class="material-symbols-outlined text-sm">pets</span>
+                                    Pets
+                                </a>
+                                <a class="flex items-center gap-x-2 text-on-surface-variant text-xs font-body py-1.5 px-2 hover:bg-surface-container dark:hover:bg-gray-800 rounded-md transition-all" href="{% url 'tools_page' %}">
+                                    <span class="material-symbols-outlined text-sm">handyman</span>
+                                    Tools & Home Improvement
+                                </a>
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- Brand Filter -->
+                        <div class="filter-section">
+                            <h3 class="font-headline font-semibold text-[11px] mb-2 uppercase tracking-wider text-on-surface-variant flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">branding_watermark</span>
+                                Brands
+                            </h3>
+                            <div class="flex flex-col gap-y-1.5">
+                                <label class="flex items-center gap-x-2 cursor-pointer text-on-surface-variant text-xs font-body py-0.5 px-1">
+                                    <input class="rounded border-outline-variant text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+                                    Apple
+                                </label>
+                                <label class="flex items-center gap-x-2 cursor-pointer text-on-surface-variant text-xs font-body py-0.5 px-1">
+                                    <input class="rounded border-outline-variant text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+                                    Samsung
+                                </label>
+                                <label class="flex items-center gap-x-2 cursor-pointer text-on-surface-variant text-xs font-body py-0.5 px-1">
+                                    <input class="rounded border-outline-variant text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+                                    Sony
+                                </label>
+                                <label class="flex items-center gap-x-2 cursor-pointer text-on-surface-variant text-xs font-body py-0.5 px-1">
+                                    <input class="rounded border-outline-variant text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+                                    Dell
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Range -->
+                        <div class="filter-section">
+                            <h3 class="font-headline font-semibold text-[11px] mb-2 uppercase tracking-wider text-on-surface-variant flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">attach_money</span>
+                                Price Range
+                            </h3>
+                            <div class="flex gap-2">
+                                <input type="number" placeholder="Min" class="w-full bg-surface-container dark:bg-gray-800 rounded-md px-2 py-1.5 text-xs border-none focus:ring-1 focus:ring-primary">
+                                <input type="number" placeholder="Max" class="w-full bg-surface-container dark:bg-gray-800 rounded-md px-2 py-1.5 text-xs border-none focus:ring-1 focus:ring-primary">
+                            </div>
+                        </div>
+                        
+                        <!-- Stock Filter -->
+                        <div class="filter-section">
+                            <label class="flex items-center gap-x-2 cursor-pointer text-on-surface-variant text-xs font-body py-0.5 px-1">
+                                <input class="rounded border-outline-variant text-primary focus:ring-primary h-3.5 w-3.5" type="checkbox"/>
+                                In Stock Only
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Filters Button -->
+                    <button class="w-full mt-2 py-2 px-2 border border-primary text-primary font-headline font-semibold text-[11px] uppercase tracking-wider rounded-md hover:bg-primary hover:text-white transition-all duration-300">
+                        Clear All Filters
+                    </button>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Overlay for mobile filter -->
+        <div id="filterOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+        
+        <!-- ============================================ -->
+        <!-- PRODUCT GRID AREA -->
+        <!-- ============================================ -->
+        <section class="flex-1">
+            <!-- Header -->
+            <header class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-3 mb-5 pb-3 border-b border-outline-variant/15">
+                <div>
+                    <nav class="text-xs text-on-surface-variant mb-1.5 flex items-center gap-x-1.5 flex-wrap">
+                        <a class="hover:text-primary transition-colors" href="#">Home</a>
+                        <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                        <span class="text-on-surface font-semibold text-xs">Beauty</span>
+                    </nav>
+                    <h1 class="text-xl sm:text-2xl font-headline font-extrabold text-primary tracking-tight">Beauty</h1>
+                    <p class="text-xs text-on-surface-variant mt-0.5">Discover premium beauty products</p>
+                </div>
+                
+                <div class="flex items-center gap-x-2">
+                    <!-- View Toggle -->
+                    <div class="flex bg-surface-container dark:bg-gray-800 p-0.5 rounded-md">
+                        <button class="p-1.5 rounded bg-white dark:bg-gray-700 shadow-sm text-primary">
+                            <span class="material-symbols-outlined text-sm">grid_view</span>
+                        </button>
+                        <button class="p-1.5 rounded text-secondary">
+                            <span class="material-symbols-outlined text-sm">view_list</span>
+                        </button>
+                    </div>
+                    <!-- Sort Dropdown -->
+                    <select class="bg-surface-container dark:bg-gray-800 border-none rounded-md text-xs font-semibold py-1.5 pl-2 pr-6 focus:ring-1 focus:ring-primary cursor-pointer">
+                        <option>Sort: Best Match</option>
+                        <option>Price: Low-High</option>
+                        <option>Price: High-Low</option>
+                        <option>Newest First</option>
+                    </select>
+                </div>
+            </header>
+            
+            <!-- Product Grid - Responsive columns -->
+            <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+                
+                {% for product in products %}
+                <!-- Product Card -->
+                <div class="product-card group bg-surface-container-lowest dark:bg-[#1e1e1e] rounded-lg overflow-hidden shadow-sm hover:shadow transition-all">
+                    
+                    <div class="relative bg-surface-container-low rounded-lg overflow-hidden aspect-[4/5] m-2">
+                        {% if product.image %}
+                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded" 
+                             src="{{ product.image.url }}" 
+                             alt="{{ product.name }}">
+                        {% else %}
+                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded" 
+                             src="{% static 'images/placeholder.jpg' %}" 
+                             alt="{{ product.name }}">
+                        {% endif %}
+                        
+                        <div class="absolute top-2 left-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-bold uppercase text-primary">
+                            {{ product.category|default:"Electronics" }}
+                        </div>
+                        
+                        {% if product.stock > 0 %}
+                        <div class="absolute top-2 right-2 bg-green-600 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
+                            In Stock
+                        </div>
+                        {% else %}
+                        <div class="absolute top-2 right-2 bg-red-600 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
+                            Out of Stock
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="p-2.5 pt-0">
+                        <div class="flex justify-between items-start gap-1">
+                            <h3 class="font-semibold text-on-surface leading-tight text-xs line-clamp-2">
+                                {{ product.name }}
+                            </h3>
+                            <div class="text-xs font-bold text-primary whitespace-nowrap">
+                                Rs.{{ product.price }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mt-1">
+                            <div class="flex items-center gap-x-1">
+                                <span class="material-symbols-outlined text-[10px] star-filled">star</span>
+                                <span class="text-[9px] font-medium text-on-surface-variant">
+                                    {{ product.brand|default:"Generic" }}
+                                </span>
+                            </div>
+                            <div class="text-[9px] text-on-surface-variant">
+                                Stock: {{ product.stock }}
+                            </div>
+                        </div>
+
+                        <p class="text-[9px] text-on-surface-variant mt-1 line-clamp-2">
+                            {{ product.description|truncatechars:20 }}
+                        </p>
+                        <a href="{% url 'product_detail' product.category product.id %}"> <button class="w-full mt-2 py-1.5 bg-primary/10 text-primary rounded-md text-[10px] font-semibold hover:bg-primary hover:text-white transition-all">
+                            Quick Shop
+                        </button></a>
+                    </div>
+                </div>
+                {% empty %}
+                <!-- No products message -->
+                <div class="col-span-full text-center py-12">
+                    <span class="material-symbols-outlined text-5xl text-on-surface-variant/50">inventory_2</span>
+                    <h3 class="text-lg font-semibold mt-3">No products found</h3>
+                    <p class="text-sm text-on-surface-variant mt-1">Try adjusting your filters or check back later</p>
+                </div>
+                {% endfor %}
+                
+            </div>
+            
+            <!-- Pagination -->
+            <div class="mt-8 sm:mt-10 flex justify-center items-center gap-x-1 flex-wrap">
+                <button class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-outline-variant/30 text-secondary hover:bg-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined text-sm">chevron_left</span>
+                </button>
+                <button class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md bg-primary text-white font-headline font-bold text-xs">1</button>
+                <button class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md text-secondary hover:bg-surface-container-high font-headline transition-colors text-xs">2</button>
+                <button class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md text-secondary hover:bg-surface-container-high font-headline transition-colors text-xs">3</button>
+                <span class="text-secondary px-1 text-xs">...</span>
+                <button class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md text-secondary hover:bg-surface-container-high font-headline transition-colors text-xs">12</button>
+                <button class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-outline-variant/30 text-secondary hover:bg-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                </button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Mobile Filter Toggle JavaScript -->
+<script>
+    (function() {
+        const filterSidebar = document.getElementById('filterSidebar');
+        const filterOverlay = document.getElementById('filterOverlay');
+        const mobileFilterBtn = document.getElementById('mobileFilterBtn');
+        const closeFilterBtn = document.getElementById('closeFilterBtn');
+        
+        function openFilter() {
+            if (filterSidebar) {
+                filterSidebar.classList.remove('-translate-x-full');
+                filterSidebar.classList.add('translate-x-0');
+            }
+            if (filterOverlay) filterOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeFilter() {
+            if (filterSidebar) {
+                filterSidebar.classList.remove('translate-x-0');
+                filterSidebar.classList.add('-translate-x-full');
+            }
+            if (filterOverlay) filterOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        
+        if (mobileFilterBtn) mobileFilterBtn.addEventListener('click', openFilter);
+        if (closeFilterBtn) closeFilterBtn.addEventListener('click', closeFilter);
+        if (filterOverlay) filterOverlay.addEventListener('click', closeFilter);
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && filterSidebar && filterSidebar.classList.contains('translate-x-0')) {
+                closeFilter();
+            }
+        });
+    })();
+</script>
+
+{% endblock base %}

@@ -1,0 +1,284 @@
+{% extends "saller_header_footer.html" %}
+
+{% block content %}
+    
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Inter', sans-serif; }
+</style>
+</head>
+<body class="bg-background text-on-surface">
+    <!-- SideNavBar Shell -->
+    <aside class="h-screen w-64 fixed left-0 top-0 border-r border-slate-200 bg-white z-50 flex flex-col p-6 space-y-2">
+        <div class="text-xl font-black text-indigo-700 mb-8">
+            Premium Seller
+            <div class="text-xs font-medium text-slate-500 uppercase tracking-widest mt-1">Enterprise Tier</div>
+        </div>
+        <nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-indigo-50 text-indigo-700 border-r-2 border-indigo-700 rounded-r-lg font-inter text-sm font-semibold transition-colors duration-200" href="#">
+    <span class="material-symbols-outlined">shopping_cart</span>
+    Orders
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors duration-200 font-inter text-sm font-medium" href="#">
+    <span class="material-symbols-outlined">inventory_2</span>
+                Products
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">add_box</span>
+                Add Product
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">forum</span>
+                Comments
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors duration-200 font-inter text-sm font-medium" href="#">
+    <span class="material-symbols-outlined">person</span>
+    Profile
+</a>
+</nav>
+</aside>
+<div class="ml-64 min-h-screen flex flex-col">
+    <!-- TopNavBar Shell -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 w-full z-40 border-b border-slate-200 shadow-[0_2px_15px_-3px_rgba(55,48,163,0.07)] flex justify-between items-center px-8 py-3">
+        <div class="flex items-center gap-4 flex-1">
+            <div class="relative w-full max-w-md">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-slate-50 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary-container/20" placeholder="Search orders, customers..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+    <button class="relative text-slate-500 hover:text-indigo-700 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 bg-error w-2 h-2 rounded-full"></span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-slate-200">
+    <img alt="Seller Profile Avatar" class="w-full h-full object-cover" data-alt="close-up portrait of a professional businessman in a sharp navy suit with a friendly and confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUdzl-SdKyI_cSZ-8Er_tGvW-ONxnztTmd7jTh686NOiENSIMTSSTZpRfWUc5yGR8qTbwSmN0t3dcEg_b_YHEjekgtD9faFxk8D5RpfMfGWCdij--3-eMRpEhHTW5AG6gu_ZMByapAKp0KfvuHEtWQzjU8ur2PTBH2sfTuZ9sXs817_8YWSzdjyRE8A6hrYgmi8gLWQqCTTtcJH9e0sr4h03eVFx8eAyvfeTXva2vrVmiuLWvQcCg3dYxXnSW9R0hm3sij53DaG9T9"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 p-xl max-w-[1440px] mx-auto w-full">
+    <!-- Header Actions -->
+<div class="flex justify-between items-end mb-xl">
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<h1 class="font-h1 text-h1 text-on-surface">Order #ORD-88294</h1>
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-label-caps uppercase">In Transit</span>
+</div>
+<p class="text-body-sm text-on-surface-variant">Placed on Oct 24, 2023 at 02:45 PM</p>
+</div>
+<div class="flex gap-md">
+<button class="flex items-center gap-2 px-lg py-sm rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low transition-all font-label-sm">
+<span class="material-symbols-outlined">print</span>
+                        Print Invoice
+                    </button>
+                    <button class="flex items-center gap-2 px-lg py-sm rounded-lg bg-primary-container text-on-primary-container hover:shadow-lg active:scale-95 transition-all font-label-sm">
+                        <span class="material-symbols-outlined">edit</span>
+                        Update Status
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-grid-gutter">
+<!-- Left Column: Details -->
+<div class="lg:col-span-2 space-y-grid-gutter">
+<!-- Customer Information Bento Section -->
+<div class="bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(55,48,163,0.04)] border border-slate-100 overflow-hidden">
+    <div class="p-lg border-b border-slate-50 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">person_pin</span>
+        <h2 class="font-h3 text-h3">Customer &amp; Shipping Info</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="p-lg space-y-lg">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-bold">JD</div>
+<div>
+<p class="font-h3 text-body-lg">Jonathan Davis</p>
+<p class="text-body-sm text-on-surface-variant">jonathan.d@enterprise.com</p>
+</div>
+</div>
+<div class="space-y-sm pt-md">
+    <div class="flex gap-3 text-body-sm">
+        <span class="material-symbols-outlined text-slate-400">call</span>
+        <span>+1 (555) 012-3456</span>
+    </div>
+    <div class="flex gap-3 text-body-sm">
+<span class="material-symbols-outlined text-slate-400">location_on</span>
+<address class="not-italic">
+                                            1224 Financial District Ave, Suite 400<br/>
+                                            New York, NY 10005, United States
+                                        </address>
+                                    </div>
+                                </div>
+</div>
+<div class="h-64 md:h-auto min-h-[250px] relative">
+    <img class="w-full h-full object-cover" data-alt="clean minimalist city map visualization of lower Manhattan with soft indigo highlights for streets and landmarks" data-location="New York" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvhLvvtbiSRnytCd-Y3fBhduCo3rTFCpddoQg1PaEozjK6JXVmqU_MGyZ8QtIiAmU01OeMaPnfYjIPyabYHJYabh-EpdWjTnWRFDJflAARj0LP9qcXo-dQjg66MkKU93Kn-Ah5Xai3x6eTHPCJOJHs6a8OHIjAf3qqzs_uYXW5TQ10wCb9pYkgO9i3mDxWi760aeIYW-WNve4lSdbsr6-88UduNU-CQPuYvmgnVSkUrcxJGMi80rCXT3tE8axSASFlUw6cYsVeB3yq"/>
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Items Table -->
+<div class="bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(55,48,163,0.04)] border border-slate-100 overflow-hidden">
+<div class="p-lg border-b border-slate-50">
+<h2 class="font-h3 text-h3">Order Items</h2>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low border-b border-slate-100">
+<tr>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Product</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">SKU</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Qty</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider">Price</th>
+<th class="px-lg py-md text-label-caps text-on-surface-variant uppercase tracking-wider text-right">Total</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50">
+    <tr class="hover:bg-slate-50/50 transition-colors">
+        <td class="px-lg py-md">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded bg-surface-container-high overflow-hidden flex-shrink-0">
+                    <img class="w-full h-full object-cover" data-alt="modern matte black high-end desktop workstation tower with subtle blue lighting accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASbzv8qUMQ4sy7DApLya4w-GUcewiS9ohpi-NQV1EWNsa65vXb44VvhcmuUxGBnb6wzHLH3OheEDcjHraIlk6288wwtPHwwd5-xezHIVo0Ug5gOERQi0_NH4ZCXl30lMZnqmAMMixnyYv5mjKIm_-tQ1MOcKRqiQP0pEvkEG_URtm3DuwspUYsZ8T7fEyHNstMxv6TtS6nOFcRrmBFE_C8w5AoBozejTGknY_pLlC2Lsu-x5yiwguUVfgCY-oGE8WOtDZuCfOuJTXz"/>
+                </div>
+                <div>
+                    <p class="font-medium text-on-surface">ProStation X-200</p>
+                    <p class="text-xs text-on-surface-variant">Config: 64GB RAM, 2TB SSD</p>
+                </div>
+            </div>
+        </td>
+        <td class="px-lg py-md text-body-sm font-mono text-slate-500">PSX-200-BL-642</td>
+        <td class="px-lg py-md text-body-sm">1</td>
+        <td class="px-lg py-md text-body-sm">$2,499.00</td>
+        <td class="px-lg py-md text-body-sm font-semibold text-right">$2,499.00</td>
+    </tr>
+    <tr class="hover:bg-slate-50/50 transition-colors">
+        <td class="px-lg py-md">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded bg-surface-container-high overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="professional 32-inch ultra-wide 4k monitor with slim bezels on a designer desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ8WWLfleEbhngAvrsyFW4hHrtdsjoc7I0sYjOdM75_Q5hj5rtcdtAeB0GZSrtiyaQXKUnhuTf5oKysfB_yGceuDcv92-TOjs39WhZCGNL9g95xJe1R4add402W9d5RijH0_8vPKrtz8xGGOwLSFNxIMAYfg-ya9iw7kxNKR6gpGTGvz2L1GXonPZ2okcrfXRY8MdbYmY9HQx2OcO2gY-PluPNaltBlKBhSgIBEKGlxiS_e2ks3AG_zyOmm5ArI3gUh6nGdMiBxJFg"/>
+</div>
+<div>
+<p class="font-medium text-on-surface">UltraView 32" 4K Monitor</p>
+<p class="text-xs text-on-surface-variant">IPS, HDR600</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md text-body-sm font-mono text-slate-500">UV32-4K-600</td>
+<td class="px-lg py-md text-body-sm">2</td>
+<td class="px-lg py-md text-body-sm">$749.00</td>
+<td class="px-lg py-md text-body-sm font-semibold text-right">$1,498.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-lg bg-surface-container-low border-t border-slate-100">
+<div class="flex justify-end">
+<div class="w-full max-w-xs space-y-sm">
+    <div class="flex justify-between text-body-sm">
+        <span class="text-on-surface-variant">Subtotal</span>
+        <span class="font-medium">$3,997.00</span>
+    </div>
+    <div class="flex justify-between text-body-sm">
+        <span class="text-on-surface-variant">Shipping (Express)</span>
+        <span class="font-medium">$45.00</span>
+    </div>
+    <div class="flex justify-between text-body-sm">
+        <span class="text-on-surface-variant">Tax (8.875%)</span>
+        <span class="font-medium">$354.73</span>
+    </div>
+    <div class="pt-sm border-t border-slate-200 flex justify-between items-end">
+        <span class="font-h3 text-h3">Total</span>
+        <span class="font-display text-h1 text-primary">$4,396.73</span>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Tracking & Summary -->
+<div class="space-y-grid-gutter">
+<!-- Tracking History -->
+<div class="bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(55,48,163,0.04)] border border-slate-100 overflow-hidden">
+<div class="p-lg border-b border-slate-50">
+<h2 class="font-h3 text-h3">Timeline</h2>
+</div>
+<div class="p-lg">
+<div class="relative space-y-8">
+<div class="absolute left-4 top-2 bottom-2 w-px bg-slate-100"></div>
+<div class="relative flex items-start gap-6">
+<div class="z-10 w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-sm">local_shipping</span>
+</div>
+<div>
+<p class="font-medium text-sm">In Transit</p>
+<p class="text-xs text-on-surface-variant">Arrived at New York Distribution Center</p>
+<p class="text-[10px] text-slate-400 mt-1 uppercase tracking-tight">Today, 10:42 AM</p>
+</div>
+</div>
+<div class="relative flex items-start gap-6">
+    <div class="z-10 w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white">
+        <span class="material-symbols-outlined text-sm">inventory</span>
+    </div>
+    <div>
+        <p class="font-medium text-sm text-slate-500">Departed Warehouse</p>
+        <p class="text-xs text-on-surface-variant">California Logistics Hub</p>
+        <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-tight">Oct 25, 08:15 AM</p>
+</div>
+</div>
+<div class="relative flex items-start gap-6">
+    <div class="z-10 w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white">
+        <span class="material-symbols-outlined text-sm">check_circle</span>
+</div>
+<div>
+    <p class="font-medium text-sm text-slate-500">Payment Confirmed</p>
+    <p class="text-xs text-on-surface-variant">Verified by Stripe</p>
+    <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-tight">Oct 24, 02:50 PM</p>
+</div>
+</div>
+<div class="relative flex items-start gap-6">
+    <div class="z-10 w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white">
+        <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+    </div>
+<div>
+<p class="font-medium text-sm text-slate-500">Order Placed</p>
+<p class="text-xs text-on-surface-variant">Web Storefront</p>
+<p class="text-[10px] text-slate-400 mt-1 uppercase tracking-tight">Oct 24, 02:45 PM</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Summary Card -->
+<div class="bg-primary-container text-on-primary-container rounded-xl p-lg space-y-md shadow-lg">
+    <h3 class="font-h3 text-h3">Internal Notes</h3>
+    <p class="text-body-sm opacity-90 leading-relaxed">Customer requested fragile handling for the monitor items. Delivery signature required. VIP Tier Client - Prioritize support if tickets are raised.</p>
+    <div class="pt-md border-t border-white/10 flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">person</span>
+<span class="text-xs font-medium">Updated by Admin Sarah W.</span>
+</div>
+</div>
+<!-- Payment Information -->
+<div class="bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(55,48,163,0.04)] border border-slate-100 p-lg space-y-md">
+<h3 class="font-h3 text-h3">Payment Method</h3>
+<div class="flex items-center gap-4 p-md bg-slate-50 rounded-lg">
+<div class="w-10 h-6 bg-slate-800 rounded flex items-center justify-center text-[8px] font-bold text-white uppercase tracking-tighter">VISA</div>
+<div>
+<p class="text-sm font-medium">Visa Ending in 4421</p>
+<p class="text-xs text-on-surface-variant">Expires 09/27</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
+{% endblock content %}

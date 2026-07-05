@@ -1,0 +1,242 @@
+{% extends "saller_header_footer.html" %}
+
+{% block content %}
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+    }
+    .soft-drop-shadow {
+        box-shadow: 0 10px 30px -5px rgba(55, 48, 163, 0.05);
+    }
+    
+    @media (max-width: 768px) {
+        .stats-grid {
+            gap: 1rem;
+        }
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+    
+    @media (max-width: 640px) {
+        .hide-mobile {
+            display: none;
+        }
+    }
+    
+    .table-container::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .table-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .table-container::-webkit-scrollbar-thumb {
+        background: #c7d2fe;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 lg:mb-8 gap-4">
+            <div>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white">Orders Management</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Review and fulfill your incoming customer orders</p>
+            </div>
+            <div class="flex items-center gap-3">
+             <div class="flex items-center gap-3">
+
+    <!-- Export CSV -->
+    <a href="{% url 'export_orders_csv' %}" 
+       class="flex items-center gap-2 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all font-medium text-sm">
+        <span class="material-symbols-outlined text-base">download</span>
+        Export CSV
+    </a>
+
+</div>
+        </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 soft-drop-shadow hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="p-2.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl">
+                        <span class="material-symbols-outlined">shopping_basket</span>
+                    </div>
+                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold text-xs bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-lg">{{ Total_orders }} total</span>
+                </div>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Total Orders</p>
+                <a href="?status=all" class="text-3xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 transition-colors">{{ Total_orders }}</a>
+            </div>
+            
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 soft-drop-shadow hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="p-2.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl">
+                        <span class="material-symbols-outlined">pending_actions</span>
+                    </div>
+                    <span class="text-slate-500 dark:text-slate-400 font-semibold text-xs bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded-lg">Need action</span>
+                </div>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pending Orders</p>
+                <a href="?status=pending" class="text-3xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 transition-colors">{{ pending_orders }}</a>
+            </div>
+            
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 soft-drop-shadow hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="p-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl">
+                        <span class="material-symbols-outlined">local_shipping</span>
+                    </div>
+                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold text-xs bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-lg">On the way</span>
+                </div>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Shipped Orders</p>
+                <a href="?status=shipped" class="text-3xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 transition-colors">{{ shipped_orders }}</a>
+            </div>
+            
+            <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700 soft-drop-shadow hover:shadow-lg transition-shadow">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="p-2.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-xl">
+                        <span class="material-symbols-outlined">check_circle</span>
+                    </div>
+                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold text-xs bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-lg">Completed</span>
+                </div>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Delivered Orders</p>
+                <a href="?status=delivered" class="text-3xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 transition-colors">{{ delivered_orders }}</a>
+            </div>
+        </div>
+
+        <!-- Main Orders Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 soft-drop-shadow overflow-hidden">
+            
+            <!-- Filters & Tabs -->
+            <div class="px-4 sm:px-6 pt-5 border-b border-slate-100 dark:border-slate-700">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex gap-5 overflow-x-auto pb-0 -mb-px">
+                        <a href="?status=all" class="{% if current_filter == 'all' %}border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold{% else %}border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 font-medium{% endif %} pb-3.5 px-1 border-b-2 text-sm whitespace-nowrap transition-all">All Orders</a>
+                        <a href="?status=pending" class="{% if current_filter == 'pending' %}border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold{% else %}border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 font-medium{% endif %} pb-3.5 px-1 border-b-2 text-sm whitespace-nowrap transition-all">Pending</a>
+                        <a href="?status=shipped" class="{% if current_filter == 'shipped' %}border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold{% else %}border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 font-medium{% endif %} pb-3.5 px-1 border-b-2 text-sm whitespace-nowrap transition-all">Shipped</a>
+                        <a href="?status=delivered" class="{% if current_filter == 'delivered' %}border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold{% else %}border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 font-medium{% endif %} pb-3.5 px-1 border-b-2 text-sm whitespace-nowrap transition-all">Delivered</a>
+                        <a href="?status=returned" class="{% if current_filter == 'returned' %}border-indigo-600 text-indigo-600 dark:text-indigo-400 font-semibold{% else %}border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 font-medium{% endif %} pb-3.5 px-1 border-b-2 text-sm whitespace-nowrap transition-all">Returned</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto table-container">
+                <table class="w-full text-left border-collapse min-w-[800px] lg:min-w-full">
+                    <thead>
+                        <tr class="bg-slate-50/50 dark:bg-slate-900/50">
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Order ID</th>
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Product</th>
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Customer</th>
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center">Qty</th>
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Price</th>
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Shipping Address</th>
+                            <th class="px-4 sm:px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Action</th>
+                          </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                        {% for order in orders %}
+                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/50 transition-colors group">
+                            <td class="px-4 sm:px-6 py-4">
+                                <span class="font-semibold text-indigo-600 dark:text-indigo-400 text-sm">#ORD-{{ order.id }}</span>
+                              </td>
+                            <td class="px-4 sm:px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    {% if order.image1 %}
+                                    <img alt="{{ order.product_name }}" class="w-10 h-10 rounded-xl object-cover border border-slate-100 dark:border-slate-700" src="{{ order.image1.url }}"/>
+                                    {% else %}
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-slate-400 text-xl">inventory_2</span>
+                                    </div>
+                                    {% endif %}
+                                    <span class="font-medium text-sm text-slate-800 dark:text-slate-200">{{ order.product_name }}</span>
+                                </div>
+                              </td>
+                            <td class="px-4 sm:px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                
+                                <br>
+                                <small class="text-xs text-slate-400">{{ order.email }}</small>
+                              </td>
+                            <td class="px-4 sm:px-6 py-4 text-center text-sm font-medium text-slate-700 dark:text-slate-300">{{ order.quantity }}</td>
+                            <td class="px-4 sm:px-6 py-4 font-semibold text-sm text-slate-900 dark:text-white">${{ order.total_price }}</td>
+                            <td class="px-4 sm:px-6 py-4">
+                                {% if order.status|lower == 'pending' %}
+                                <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400">Pending</span>
+                                {% elif order.status|lower == 'shipped' %}
+                                <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400">Shipped</span>
+                                {% elif order.status|lower == 'delivered' %}
+                                <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400">Delivered</span>
+                                {% elif order.status|lower == 'returned' %}
+                                <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400">Returned</span>
+                                {% else %}
+                                <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-400">{{ order.status|title }}</span>
+                                {% endif %}
+                              </td>
+                            <td class="px-4 sm:px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                                {{ order.shipping_address }}{% if order.street %}, {{ order.street }}{% endif %}
+                              </td>
+                            <td class="px-4 sm:px-6 py-4 text-right">
+                                <div class="flex gap-2 justify-end">
+      <form method="POST" action="{% url 'delete_order' order.id %}">
+    {% csrf_token %}
+    <button type="submit"
+        class="text-red-600 hover:text-red-800 font-semibold text-sm">
+        Delete
+    </button>
+</form>
+                                    {% if order.status|lower == 'pending' %}
+                                    <form method="post" action="" class="inline">
+                                        {% csrf_token %}
+                                        <button type="submit" name="status" value="shipped" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 font-semibold text-sm">Ship</button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                              </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="px-4 sm:px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="material-symbols-outlined text-5xl text-slate-400 mb-3">inbox</span>
+                                    <p class="text-slate-500 dark:text-slate-400">No orders found</p>
+                                    <p class="text-sm text-slate-400 dark:text-slate-500 mt-1">When you receive orders, they'll appear here</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between bg-white dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700 gap-3">
+                <p class="text-sm text-slate-500 dark:text-slate-400">Showing <span class="font-semibold text-slate-700 dark:text-slate-300">{{ orders|length }}</span> of <span class="font-semibold text-slate-700 dark:text-slate-300">{{ Total_orders }}</span> orders</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media (max-width: 640px) {
+        input, select, textarea, button {
+            font-size: 16px !important;
+        }
+    }
+    
+    .transition-all {
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+    }
+</style>
+
+
+{% endblock content %}

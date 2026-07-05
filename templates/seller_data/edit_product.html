@@ -1,0 +1,445 @@
+{% extends "saller_header_footer.html" %}
+
+{% block content %}
+
+
+    <style>
+        /* custom styles to preserve exact visual from original + smooth responsive */
+        body {
+            background-color: #f9fafc;
+        }
+        .warning-bar {
+            transition: all 0.2s ease;
+        }
+        .ban-badge {
+            background-color: rgba(255,255,240,0.2);
+            backdrop-filter: blur(2px);
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+            border: 0.5px solid rgba(255,255,200,0.3);
+        }
+        .policy-item {
+            position: relative;
+            padding-left: 20px;
+        }
+        .policy-item::before {
+            content: "•";
+            position: absolute;
+            left: 4px;
+            color: #b91c1c;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .field-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #4b5563;
+        }
+        .field-input {
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            background-color: white;
+            outline: none;
+        }
+        .field-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+        }
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0 1rem 0;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #9ca3af;
+            letter-spacing: 0.5px;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+        .section-divider span {
+            margin: 0 12px;
+            text-transform: uppercase;
+        }
+        .checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .checkbox-row input {
+            margin-top: 2px;
+            width: 16px;
+            height: 16px;
+            accent-color: #2563eb;
+            flex-shrink: 0;
+        }
+        .file-zone {
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 20px;
+            background-color: #fafcff;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-align: center;
+            padding: 1.5rem 0.5rem;
+        }
+        .file-zone:hover {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
+        }
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #1e293b;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.7rem 1.6rem;
+            border-radius: 40px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .btn-submit:hover {
+            background-color: #0f172a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .tag-pill {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        /* Responsive touch improvements */
+        @media (max-width: 640px) {
+            .max-w-2xl {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+            .px-7 {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+            .btn-submit {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+            .ban-badge {
+                font-size: 9px;
+                padding: 3px 8px;
+            }
+            .warning-bar .bg-red-600 {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .grid-cols-2 {
+                gap: 1rem;
+            }
+            .field-input {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .checkbox-row span {
+                font-size: 11.5px;
+            }
+        }
+        @media (max-width: 480px) {
+            .warning-bar .bg-red-600 {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .ban-badge {
+                align-self: flex-start;
+            }
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .grid-cols-2 .col-span-2 {
+                grid-column: span 1;
+            }
+            .flex.items-center.justify-between.pt-4 {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+            .btn-submit {
+                justify-content: center;
+            }
+            .data-encrypt {
+                justify-content: center;
+            }
+        }
+        /* ensure drag & drop area has proper spacing */
+        #image-preview {
+            max-height: 180px;
+            width: auto;
+            margin: 0 auto;
+        }
+        select.field-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+    </style>
+                
+
+    <div class="max-w-2xl mx-auto px-4 sm:px-5 md:px-0 py-6 md:py-8">
+      
+
+        <div class="mb-5 bg-blue-50 border border-blue-200 rounded-xl px-4 sm:px-5 py-4 flex flex-col sm:flex-row gap-3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" style="flex-shrink:0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+                <p class="text-blue-800 font-semibold text-[12.5px] mb-1">Your data & privacy</p>
+                <p class="text-blue-700 text-[12px] leading-relaxed font-light">
+                    Product data you submit is stored securely and used only to display listings to buyers. Your seller identity is never shared publicly without consent. We comply with applicable data protection laws. By listing a product, you agree to our <a href="#" class="underline font-medium">Seller Privacy Policy</a>.
+                </p>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             MAIN FORM CARD
+        ══════════════════════════════════ -->
+        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+            <!-- Card header -->
+          <div class="px-5 sm:px-7 pt-6 pb-5 border-b border-gray-100">
+    
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-2 bg-orange-100 rounded-2xl">
+        
+                  <!-- Title Section -->
+                  <div class="flex flex-col">
+                      <h1 class="text-lg sm:text-xl font-semibold text-orange-500 flex flex-wrap items-center gap-1">
+                          <span class="text-gray-700 font-medium">Welcome,</span>
+                          <span class="text-orange-600">{{ request.user.username }}</span>
+                      </h1>
+                      
+                      <p class="text-sm text-gray-600 font-light mt-1">
+                          Update your product easily with simple steps
+                      </p>
+                  </div>
+
+                  <!-- Tag -->
+                  <span class="tag-pill bg-gray-100 text-gray-500">
+                      Seller Portal
+                  </span>
+
+              </div>
+
+          </div>
+
+            <form method="POST" enctype="multipart/form-data" class="px-5 sm:px-7 py-6">
+                {% csrf_token %}
+
+                <!-- ── Category ── -->
+                <div class="section-divider"><span>Product identity</span></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="field-label">Category <span class="text-red-500">*</span></label>
+                        <select name="category" id="category-select" onchange="updateCategory(this.value)" class="field-input pr-8 cursor-pointer">
+                          
+                                <option value="Electronics" {% if product.category == "Electronics" %}selected{% endif %}>Electronics</option>
+
+                                <option value="Fashion" {% if product.category == "Fashion" %}selected{% endif %}>Fashion</option>
+
+                                <option value="Footwear" {% if product.category == "Footwear" %}selected{% endif %}>Footwear</option>
+
+                                <option value="Beauty" {% if product.category == "Beauty" %}selected{% endif %}>Beauty</option>
+
+                                <option value="Home" {% if product.category == "Home" %}selected{% endif %}>Home</option>
+
+                                <option value="Kitchen" {% if product.category == "Kitchen" %}selected{% endif %}>Kitchen</option>
+
+                                <option value="Health" {% if product.category == "Health" %}selected{% endif %}>Health</option>
+
+                                <option value="Sports" {% if product.category == "Sports" %}selected{% endif %}>Sports</option>
+
+                                <option value="Kids" {% if product.category == "Kids" %}selected{% endif %}>Kids</option>
+
+                                <option value="Automotive" {% if product.category == "Automotive" %}selected{% endif %}>Automotive</option>
+
+                                <option value="Books" {% if product.category == "Books" %}selected{% endif %}>Books</option>
+
+                                <option value="Groceries" {% if product.category == "Groceries" %}selected{% endif %}>Groceries</option>
+
+                                <option value="Jewelry" {% if product.category == "Jewelry" %}selected{% endif %}>Jewelry</option>
+
+                                <option value="Pets" {% if product.category == "Pets" %}selected{% endif %}>Pets</option>
+
+                                <option value="Tools" {% if product.category == "Tools" %}selected{% endif %}>Tools</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-1.5 mb-4">
+                    <label class="field-label">Product name <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" value="{{product.name}}" placeholder="Product name " class="field-input" required />
+                </div>
+
+                <div class="flex flex-col gap-1.5 mb-4">
+                    <label class="field-label">Brand <span class="text-red-500">*</span></label>
+                    <input type="text" name="brand" value="{{product.brand}}" placeholder="Enter your brand name " class="field-input" required />
+                </div>
+
+                <!-- ── Pricing & Stock ── -->
+                <div class="section-divider"><span>Pricing & inventory</span></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="field-label">Price (PKR) <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-mono">₨</span>
+                            <input type="number" name="price" value="{{product.price}}" step="0.01" min="0" placeholder="Enter product price" class="field-input pl-7" required />
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="field-label">Stock quantity <span class="text-red-500">*</span></label>
+                        <input type="number" name="stock" value="{{product.stock}}" min="0" placeholder="Stock" class="field-input" required />
+                    </div>
+                </div>
+
+                <!-- ── Description ── -->
+                <div class="section-divider"><span>Description</span></div>
+
+                <div class="flex flex-col gap-1.5 mb-4">
+                    <div class="flex items-center justify-between flex-wrap gap-1">
+                        <label class="field-label">Product description <span class="text-red-500">*</span></label>
+                        <span id="desc-count" class="text-[10px] text-gray-300 font-mono">0 / 1000</span>
+                    </div>
+                    <textarea name="description"  rows="4" maxlength="1000" oninput="updateCount(this)"
+                        placeholder="Describe the product — features, specs, condition, what's included…"
+                        class="field-input resize-none leading-relaxed">{{product.description}}</textarea>
+                </div>
+
+                <!-- ── Image Upload ── -->
+                <div class="section-divider"><span>Product image</span></div>
+
+                <div class="mb-4">
+                    <label class="field-label block mb-2">Upload image <span class="text-red-500">*</span></label>
+                    <label for="image-input" class="file-zone block">
+                        <input type="file" name="image" value="{{product.image.url}}" id="image-input" accept="image/*" class="hidden" onchange="previewImage(this)" />
+                        <div id="upload-placeholder">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" class="mx-auto mb-2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <p class="text-sm text-gray-400 font-light">Click to upload or drag & drop</p>
+                            <p class="text-[11px] text-gray-300 mt-1">PNG, JPG, WEBP — max 5 MB</p>
+                        </div>
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="mx-auto rounded-lg max-h-40 object-contain border mb-3" />
+                            {% endif %}
+                    </label>
+                    <p id="image-name" class="text-[11px] text-gray-400 mt-1.5 ml-1 hidden"></p>
+                </div>
+
+                <!-- ── Legal & Consent ── -->
+                <div class="section-divider"><span>Declarations</span></div>
+
+                <div class="space-y-2.5 mb-6">
+                    <label class="checkbox-row">
+                        <input type="checkbox" name="confirm_original" required />
+                        <span class="text-[12.5px] text-gray-600 leading-relaxed">
+                            I confirm this product is <strong>original and not a duplicate</strong> of any other listing on this platform.
+                        </span>
+                    </label>
+                    <label class="checkbox-row">
+                        <input type="checkbox" name="confirm_authentic" required />
+                        <span class="text-[12.5px] text-gray-600 leading-relaxed">
+                            I confirm this product is <strong>authentic</strong> and all provided information (brand, price, description) is accurate.
+                        </span>
+                    </label>
+                    <label class="checkbox-row">
+                        <input type="checkbox" name="confirm_policy" required />
+                        <span class="text-[12.5px] text-gray-600 leading-relaxed">
+                            I have read and agree to the <a href="#" class="text-blue-600 underline">Seller Terms</a>, <a href="#" class="text-blue-600 underline">Privacy Policy</a>, and understand that fraud results in a <strong class="text-red-600">1-year account ban</strong>.
+                        </span>
+                    </label>
+                </div>
+
+                <!-- ── Submit ── -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-100">
+                    <div class="flex items-center gap-2 text-[11px] text-gray-400">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        Data encrypted & secure
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        Submit listing
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer note -->
+        <p class="text-center text-[11px] text-gray-400 mt-5 font-light px-2">
+            Listings are reviewed within 24 hours. Questions? Contact
+            <a href="mailto:support@marketplace.com" class="underline">support@marketplace.com</a>
+        </p>
+    </div>
+
+    <script>
+        // Legacy functions exactly as original but adapted for smooth experience
+        function updateCategory(val) {
+            // Placeholder for any custom logic; keep original signature.
+            // optional hidden field if needed, but do nothing extra.
+            if (window.console) console.log("Category selected: " + val);
+        }
+
+        function updateCount(el) {
+            const len = el.value.length;
+            const countSpan = document.getElementById('desc-count');
+            if (countSpan) countSpan.textContent = len + ' / 1000';
+        }
+
+        function previewImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const placeholder = document.getElementById('upload-placeholder');
+            const preview = document.getElementById('image-preview');
+            const nameLine = document.getElementById('image-name');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                if (placeholder) placeholder.classList.add('hidden');
+                preview.classList.remove('hidden');
+                nameLine.textContent = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+                nameLine.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // optional: reset image preview if file input changes to empty (just robustness)
+        document.getElementById('image-input')?.addEventListener('change', function(e) {
+            if (!e.target.files || e.target.files.length === 0) {
+                const placeholderDiv = document.getElementById('upload-placeholder');
+                const previewImg = document.getElementById('image-preview');
+                const nameSpan = document.getElementById('image-name');
+                if (placeholderDiv) placeholderDiv.classList.remove('hidden');
+                if (previewImg) previewImg.classList.add('hidden');
+                if (nameSpan) nameSpan.classList.add('hidden');
+            }
+        });
+    </script>
+
+
+
+{% endblock content %}

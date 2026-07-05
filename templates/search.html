@@ -1,0 +1,99 @@
+{% extends 'header_footer.html' %}
+
+{% block base %}
+
+<div class=" mt-20 sm:mt-24 md:mt-32 lg:mt-44 xlg:mt-52 max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Heading -->
+    <div class="mb-8">
+
+        <h1 class="text-3xl font-bold text-gray-800">
+            Search Results
+        </h1>
+
+        {% if search1 %}
+        <p class="text-gray-500 mt-2">
+            Showing results for:
+            <span class="font-semibold text-primary">
+                "{{ search1 }}"
+            </span>
+        </p>
+        {% endif %}
+
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+        {% for i in result %}
+
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 border border-gray-100">
+
+            <!-- Product Image -->
+            <div class="h-56 overflow-hidden">
+
+                <img
+                    src="{{ i.image.url }}"
+                    alt="{{ i.name }}"
+                    class="w-full h-full object-cover hover:scale-105 transition duration-300"
+                >
+
+            </div>
+
+            <!-- Product Content -->
+            <div class="p-4">
+
+                <h2 class="text-lg font-bold text-gray-800 line-clamp-1">
+                    {{ i.name }}
+                </h2>
+
+                <p class="text-primary font-semibold text-xl mt-2">
+                    ${{ i.price }}
+                </p>
+
+                <p class="text-gray-500 text-sm mt-2 line-clamp-3">
+                    {{ i.description }}
+                </p>
+
+                <!-- Button -->
+                <div class="mt-4">
+
+                    <a href="{% url 'product_detail' i.category i.id %}"
+                        class="block text-center bg-primary text-white py-2 rounded-lg hover:bg-primary/90 transition">
+
+                        View Product
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <!-- No Product -->
+        <div class="col-span-full text-center py-20">
+
+            <span class="material-symbols-outlined text-7xl text-gray-300">
+                search_off
+            </span>
+
+            <h2 class="text-2xl font-bold text-gray-700 mt-4">
+                No Product Found
+            </h2>
+
+            <p class="text-gray-500 mt-2">
+                Try searching with another keyword.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

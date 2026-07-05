@@ -1,0 +1,208 @@
+{% extends "header_footer.html" %}
+{% block base %}
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+             colors: {
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "primary-fixed": "#ffdbce",
+                        "on-secondary-container": "#11278e",
+                        "on-secondary-fixed-variant": "#293ca0",
+                        "background": "#f9f9f9",
+                        "error": "#ba1a1a",
+                        "primary-container": "#ff6000",
+                        "surface-container-highest": "#e2e2e2",
+                        "inverse-primary": "#ffb598",
+                        "surface-container": "#eeeeee",
+                        "inverse-on-surface": "#f1f1f1",
+                        "secondary-fixed-dim": "#bac3ff",
+                        "tertiary-fixed": "#d1e4ff",
+                        "tertiary-container": "#0098fd",
+                        "inverse-surface": "#2f3131",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary-fixed": "#370e00",
+                        "surface-dim": "#dadada",
+                        "on-tertiary-fixed": "#001d36",
+                        "outline": "#8f7065",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#0061a4",
+                        "on-tertiary-container": "#002e53",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#dee0ff",
+                        "surface-tint": "#a63c00",
+                        "secondary-container": "#8596ff",
+                        "on-tertiary-fixed-variant": "#00497d",
+                        "primary-fixed-dim": "#ffb598",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#00105c",
+                        "on-primary-container": "#531a00",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-variant": "#e2e2e2",
+                        "on-surface-variant": "#5b4137",
+                        "secondary": "#4355b9",
+                        "primary": "#a63c00",
+                        "tertiary-fixed-dim": "#9fcaff",
+                        "on-background": "#1a1c1c",
+                        "surface": "#f9f9f9",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#e3bfb1",
+                        "surface-bright": "#f9f9f9",
+                        "on-primary-fixed-variant": "#7e2c00"
+                    },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "gutter": "32px",
+                    "section-gap-lg": "128px",
+                    "container-max": "1280px",
+                    "margin-mobile": "24px",
+                    "section-gap-md": "80px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "body-xl": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "500"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-xl": ["20px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+
+
+<main class=" mt-20 sm:mt-32 md:mt-50 lg:mt-56 xlg:mt-64">
+<!-- Immersive Hero with Full-Width Integrated Visuals -->
+<section class="relative w-full overflow-hidden bg-primary text-on-primary">
+<div class="grid grid-cols-1 md:grid-cols-2">
+<div class="relative group h-[70vh] md:h-[90vh] overflow-hidden">
+<img alt="Amir Khan - Founder" class="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvGfrCKGEZ2ZJw4hgkpAPVpG5hrpPRJpdE7BfLetI_EVYWSRcoKUDszdIz0vBvv2Cn9RteFBMZKcGTJilbMe8ZfKu9ad2kldU2f4NJj5XpLU8HH4g32JbLhz8X-Fd3-iuT1MzARd9HIgizHtsf0ieG1oFD8JkXKgJExGQMN72PsdQO-iu-t-e7TiEbS9k__A4_cEoneo4RPPN5FC_49JxNY0U4skHcE00733qwJP6LLTOiFZxEeuyu9clp1QuON4dNM-DJr61P8Pk"/>
+<div class="absolute bottom-0 left-0 p-margin-desktop z-10">
+<h3 class="font-display-lg-mobile md:font-display-lg text-on-primary mb-1">Muhammad Sohail</h3>
+
+</div>
+</div>
+<div class="relative group h-[70vh] md:h-[90vh] overflow-hidden">
+<img alt="Zayan Malik - Head of Design" class="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeGqNmZUyzxtR8P9XLvL6ZNwLGLZ-gHpgE444uTc5mvM_B3kk9tV2K9iKpMvFOjj3pz0JkkhnHJEx788FwtnCcUdZC-gjPZTc4s_A0G6M6P_hG2SclMq3js9tEK-VgemSc1un_YIX0dbX6_RrUbcpLor71mSFO_xNIcBJSVlNOUGE6d9a4hBFfcwDfv54r_o0FferugvMWtoW0Fv4qzLyBPzd-T4jOVtxDfCTkzbKeaT7dnYncb6jrILgcO2Qfa_yFYe79aryXH88"/>
+<div class="absolute bottom-0 left-0 p-margin-desktop z-10">
+<h3 class="font-display-lg-mobile md:font-display-lg text-on-primary mb-1">Abid Ullah</h3>
+
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-20 pointer-events-none w-full px-margin-mobile">
+<h1 class="font-display-lg text-display-lg md:text-[120px] md:leading-[110px] text-on-primary drop-shadow-2xl">The Vision</h1>
+<p class="font-body-xl text-body-xl text-on-primary/80 max-w-2xl mx-auto mt-4 drop-shadow-lg">
+                Bridging architectural precision and modern professional lifestyle.
+            </p>
+</div>
+</section>
+<!-- Central Mission Section (High Contrast) -->
+<section class="bg-surface-container-highest dark:bg-inverse-surface py-section-gap-lg">
+<div class="max-w-container-max mx-auto px-margin-desktop text-center">
+<span class="font-label-md text-label-md text-primary tracking-[0.3em] uppercase mb-12 block">Our Purpose</span>
+<div class="max-w-5xl mx-auto">
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-12 leading-tight">
+                    Our E-commerce Mission
+                </h2>
+<p class="font-headline-xl text-headline-xl text-primary leading-snug italic mb-12 max-w-4xl mx-auto">
+                    "To redefine the standard of digital commerce by prioritizing transparency, architectural precision, and the invisible interface."
+                </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter text-left items-start mt-16">
+<p class="font-body-xl text-on-surface-variant leading-relaxed">
+                        Since our inception, MODERN CORPO has operated on a single principle: perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.
+                    </p>
+<p class="font-body-xl text-on-surface-variant leading-relaxed">
+                        We strip back the noise of traditional retail to provide a seamless, focused path from discovery to ownership, ensuring every interaction feels intentional.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Innovation & Excellence (Asymmetric with Subtle Shift) -->
+<section class="bg-surface-container-low py-section-gap-lg">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="flex flex-col lg:flex-row gap-20 items-center">
+<div class="w-full lg:w-5/12">
+<h2 class="font-display-lg text-display-lg mb-10 leading-tight">Innovation &amp;<br/>Excellence</h2>
+<p class="font-body-xl text-on-surface-variant mb-12 leading-relaxed">
+                        Our research and development team operates at the intersection of material science and user experience. We don't just sell products; we engineer solutions that enhance the professional workflow.
+                    </p>
+<ul class="space-y-8">
+<li class="flex items-center gap-6 group">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="verified_user">verified_user</span>
+<span class="font-headline-lg text-headline-lg group-hover:translate-x-2 transition-transform duration-300">Rigorous Quality Validation</span>
+</li>
+<li class="flex items-center gap-6 group">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="eco">eco</span>
+<span class="font-headline-lg text-headline-lg group-hover:translate-x-2 transition-transform duration-300">Sustainable Logistics Framework</span>
+</li>
+<li class="flex items-center gap-6 group">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="memory">memory</span>
+<span class="font-headline-lg text-headline-lg group-hover:translate-x-2 transition-transform duration-300">Next-Gen Order Processing</span>
+</li>
+</ul>
+</div>
+<div class="w-full lg:w-7/12">
+<div class="relative overflow-hidden">
+<img alt="Innovation Lab" class="w-full h-[600px] object-cover grayscale brightness-75 contrast-125 hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAosMHBcSYp4kFAWfZ85uqBO6EuOrXllEbtuDsKsd3PtWmOBScgn3DTj_ug2idlO5zEfwVu3B4M52QXJaHIbLr5nk6DtU0v_aZkqPqirr_DMwnCsRIa3tSL4QXi-tybh4piDSGuWbXmWkf9zFCd4QxkU4wh4eGIf8duCCsc8bFArgDsfsbC9zJRnTkyVMbtn4rdixZinZTqMCDbzBozit3qV8S6TAR26lNtDNSUXPpN78fXmEiJLZ9Pitxmm7BbZiR2YnpTOzsWq6k"/>
+<div class="absolute inset-0 border-[24px] border-surface-container-low/30 pointer-events-none"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Global Impact (Deep High Contrast) -->
+<section class="bg-primary text-on-primary py-section-gap-lg">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16 text-center mb-24">
+<div class="flex flex-col items-center">
+<div class="font-display-lg text-[80px] text-tertiary-fixed mb-4">12+</div>
+<p class="font-label-md text-label-md text-on-primary/40 uppercase tracking-[0.2em]">Years of Precision</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="font-display-lg text-[80px] text-tertiary-fixed mb-4">50k</div>
+<p class="font-label-md text-label-md text-on-primary/40 uppercase tracking-[0.2em]">Global Clients</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="font-display-lg text-[80px] text-tertiary-fixed mb-4">100%</div>
+<p class="font-label-md text-label-md text-on-primary/40 uppercase tracking-[0.2em]">Carbon Offset</p>
+</div>
+</div>
+<div class="max-w-4xl mx-auto text-center">
+<h2 class="font-display-lg text-display-lg mb-8 text-on-primary">Global Impact</h2>
+<p class="font-body-xl text-on-primary/70 leading-relaxed">
+                        Our commitment extends beyond commerce. We invest in local supply chains and sustainable shipping practices to ensure that every transaction contributes positively to the global ecosystem. We believe architectural integrity should apply to our environmental footprint just as much as our products.
+                    </p>
+</div>
+</div>
+</section>
+</main>
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends "header_footer.html" %}
+{% block base %}
+
+
+
+    <style>
+        /* Global reset and font consistency - no JavaScript, just pure UI */
+        * {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f9fafc 0%, #f1f5f9 100%);
+        }
+        /* Soft shadow elevation for card */
+        .premium-shadow {
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.12), 0 4px 12px -4px rgba(0, 0, 0, 0.02);
+        }
+        /* Custom focus ring for inputs without any JS */
+        .focus-ring-custom:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        /* Smooth transitions for hover states */
+        .btn-transition {
+            transition: all 0.2s ease-in-out;
+        }
+        /* Hide number input spinners for better UI */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Consistent placeholder style */
+        ::-webkit-input-placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+    </style>
+
+    <main class=" mt-20 sm:mt-24 md:mt-28 lg:mt-32 xlg:mt-38 min-h-screen flex items-center bg-gradient-to-br from-slate-50 justify-center px-4 py-12 md:py-16 lg:py-20">
+        
+        <!-- Main Card Container: Modern grid, rounded-2xl premium card -->
+        <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden bg-white premium-shadow transition-all duration-300">
+            
+            <!-- LEFT PANEL - BRAND/HERO SECTION (ecommerce oriented, visual storytelling) -->
+            <div class="relative hidden lg:flex flex-col justify-between p-8 xl:p-12 bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white overflow-hidden">
+                
+                <!-- Background pattern overlay (pure CSS/pattern, elegant) -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none">
+                    <svg width="100%" height="100%" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="gridPattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+                                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.8" opacity="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#gridPattern)" />
+                    </svg>
+                </div>
+                
+                <!-- Floating accent blur circles -->
+                <div class="absolute top-20 -right-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-10 -left-20 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl"></div>
+                
+                <!-- Content zone -->
+                <div class="relative z-10">
+                    <!-- Logo / Brand -->
+                    <div class="flex items-center gap-2 mb-12">
+                        <span class="material-symbols-outlined text-3xl text-indigo-300">shopping_bag</span>
+                        <span class="font-bold text-2xl tracking-tight">BUY<span class="text-indigo-300">ZON</span></span>
+                    </div>
+                    
+                    <!-- Hero text -->
+                    <div class="space-y-5">
+                        <div class="inline-block px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold tracking-wide uppercase">
+                            🛒 Multi-Vendor Marketplace
+                        </div>
+                        <h2 class="text-4xl xl:text-5xl font-bold leading-tight tracking-tight">
+                           Welcome Back to<br>BUY ZON
+                        </h2>
+                        <div class="w-12 h-1 bg-indigo-400 rounded-full"></div>
+                        <p class="text-white/80 text-base leading-relaxed max-w-md">
+                            Sign in to access your account, manage products, track orders, and enjoy a secure shopping experience.
+                        </p>
+                        
+                        <!-- Feature list with icons (static, no interactions) -->
+                        <div class="flex flex-col gap-4 mt-6">
+                            <div class="flex items-center gap-3 text-sm">
+                                <span class="material-symbols-outlined text-indigo-300 text-xl">speed</span>
+                                <span>Secure Shopping Experience</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm">
+                                <span class="material-symbols-outlined text-indigo-300 text-xl">analytics</span>
+                                <span>Product & Order Management</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm">
+                                <span class="material-symbols-outlined text-indigo-300 text-xl">security</span>
+                                <span>Safe & Protected Accounts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trust badges / testimonials (static) -->
+                <div class="relative z-10 mt-12 pt-6 border-t border-white/20">
+                    <div class="flex items-center gap-4 flex-wrap">
+                        
+                        <div>
+                            <p class="text-xs font-medium text-indigo-200">BSCS Final Year Project
+
+Design and Development of a Django-Based
+Multi-Vendor E-Commerce Web Platform</p>
+                            <div class="flex text-amber-300 text-xs">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- RIGHT PANEL: LOGIN FORM (pure HTML/CSS, Tailwind, no JavaScript) -->
+            <div class="bg-white px-6 py-10 sm:p-10 md:p-12 lg:p-10 xl:p-12">
+                <div class="max-w-md mx-auto w-full">
+                    
+                    <!-- Header Section -->
+                    <div class="mb-8 text-center lg:text-left">
+                        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Login to Your Account</h1>
+                        <p class="text-gray-500 mt-2">Access your BUY ZON account securely</p>
+                        <div class="mt-3 flex justify-center lg:justify-start gap-2 text-xs text-gray-400">
+                            <span>✓ Secure Login</span>
+                            <span>•</span>
+                            <span>✓  Order Tracking</span>
+                            <span>•</span>
+                            <span>✓ Customer Support</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Django Messages Container (compatible with message framework, no JS) -->
+                    {% if messages %}
+                        <div class="mb-6 space-y-2">
+                            {% for message in messages %}
+                                <div class="flex items-start gap-2 p-3 rounded-xl text-sm font-medium 
+                                    {% if message.tags == 'error' %}bg-red-50 text-red-700 border border-red-200
+                                    {% elif message.tags == 'success' %}bg-green-50 text-green-700 border border-green-200
+                                    {% else %}bg-amber-50 text-amber-700 border border-amber-200{% endif %}">
+                                    <span class="material-symbols-outlined text-base shrink-0 mt-0.5">
+                                        {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}check_circle{% else %}info{% endif %}
+                                    </span>
+                                    <span>{{ message }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Login Form - FIXED: Changed URL to use authentication namespace -->
+                    <form method="POST" action="{% url 'authentication:login' %}" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <!-- Username Field (not email - based on your login_view) -->
+                        <div>
+                            <label for="login-username" class="block text-sm font-semibold text-gray-700 mb-1.5">Username or Email</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">person</span>
+                                <input type="text" id="login-username" name="username" 
+                                       class="w-full pl-10 pr-4 py-1 sm:py-2 border border-gray-300 rounded-xl bg-gray-50/40 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus-ring-custom transition-all duration-200 text-gray-800 placeholder:text-gray-400"
+                                       placeholder="Enter username or email" autocomplete="username" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Password Field (simple, no show/hide to keep pure, no JS) -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label for="login-password" class="block text-sm font-semibold text-gray-700">Password</label>
+                            </div>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">lock</span>
+                                <input type="password" id="login-password" name="password" 
+                                       class="w-full pl-10 pr-4 py-1 sm:py-2 border border-gray-300 rounded-xl bg-gray-50/40 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus-ring-custom transition-all duration-200 text-gray-800"
+                                       placeholder="Enter your password" autocomplete="current-password" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Remember Me Checkbox (Pure HTML/CSS, no JS) -->
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="checkbox" name="remember_me" class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 focus:ring-offset-0 cursor-pointer">
+                                <span class="text-sm text-gray-600 group-hover:text-gray-800 transition">Keep me signed in</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Login Submit Button (Gradient + hover effect via CSS) -->
+                        <button type="submit" 
+                                class="relative w-full mt-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-semibold py-3.5 rounded-xl shadow-md hover:shadow-lg btn-transition flex items-center justify-center gap-2 text-base cursor-pointer">
+                            <span class="material-symbols-outlined text-xl">login</span>
+                            <span>Login Account</span>
+                        </button>
+                        
+                        <!-- Divider with OR text -->
+                        <div class="relative my-6">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-200"></div>
+                            </div>
+                            <div class="relative flex justify-center text-xs">
+                                <span class="bg-white px-3 text-gray-400">or continue with</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Sign Up Redirect (Link to signup page) - FIXED -->
+                       <p class="text-center text-sm mt-8 text-gray-600">
+                            New to
+                            <span class="font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+                                BUY ZON
+                            </span>?<br>
+                            <a href="{% url 'authentication:signup' %}" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline transition">Create account</a>
+                        </p>
+                    </form>
+                    
+                    <!-- Additional info: Demo / Secure note (no JS, just static) -->
+                    <div class="mt-6 text-center text-xs text-gray-400 flex items-center justify-center gap-1">
+                        <span class="material-symbols-outlined text-xs">verified_user</span>
+                        <span>Secure Authentication & Protected Access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+{% endblock base %}

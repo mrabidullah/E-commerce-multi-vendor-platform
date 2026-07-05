@@ -1,0 +1,425 @@
+{% extends "header_footer.html" %}
+
+
+{% block base %}
+
+<!-- Custom CSS for this page only -->
+<style>
+    /* Additional responsive styles that don't conflict with Tailwind */
+    .product-page-main {
+        transition: all 0.3s ease;
+    }
+    
+    /* Responsive font adjustments */
+    @media (max-width: 640px) {
+        .product-title {
+            font-size: 1.75rem !important;
+        }
+        .sticky-form {
+            position: relative !important;
+            top: 0 !important;
+        }
+    }
+    
+    @media (min-width: 641px) and (max-width: 768px) {
+        .product-title {
+            font-size: 2rem !important;
+        }
+    }
+    
+    /* Custom scroll behavior */
+    .comment-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .comment-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Quantity input styling */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        opacity: 1;
+    }
+    
+    /* Responsive image container */
+    .product-image-container {
+        aspect-ratio: 4/5;
+    }
+    
+    @media (min-width: 1024px) {
+        .product-image-container {
+            aspect-ratio: 1/1;
+        }
+    }
+    
+    /* Dark mode overrides if needed */
+    .dark .bg-tertiary\/5 {
+        background-color: rgba(0, 73, 125, 0.1);
+    }
+</style>
+
+
+
+<div id="msg" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-black/30 via-black/20 to-transparent backdrop-blur-sm animate-[fadeIn_0.3s_ease-out]" style="display: none;">
+  <div class="bg-white rounded-3xl shadow-2xl max-w-md mx-4 overflow-hidden transform animate-[slideUp_0.4s_ease-out]">
+    
+    <!-- Colorful Top Bar -->
+    <div class="h-2 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500"></div>
+    
+    <div class="p-8 text-center">
+      <!-- Checkmark Icon -->
+      <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      
+      <!-- Message -->
+      <p id="msg-text" class="text-gray-800 text-lg font-semibold">
+        Your message here
+      </p>
+      
+      <!-- Close Hint -->
+      <p class="text-xs text-gray-400 mt-4">✨ Thanks for selecting this product!</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; backdrop-filter: blur(0px); }
+    to { opacity: 1; backdrop-filter: blur(4px); }
+  }
+  
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Show modal when target is active - pure CSS activation examples */
+  
+  /* Method 1: Show via hash target (#show) */
+  #msg:target {
+    display: flex !important;
+  }
+  
+  /* Method 2: Show via checkbox hack (optional - add checkbox elsewhere) */
+  #modal-toggle:checked ~ #msg {
+    display: flex !important;
+  }
+  
+  /* Smooth close on click outside (optional - add to backdrop) */
+  #msg:active {
+    display: none !important;
+  }
+</style>
+
+
+
+
+
+
+
+<main class="product-page-main mt-24 sm:mt-32 md:mt-40 lg:mt-48 xl:mt-50 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    
+    <!-- Product Grid - Fully Responsive -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-start">
+        
+        <!-- Product Visual Hero Section -->
+        <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+            <!-- Main Product Image -->
+            <div class="relative overflow-hidden rounded-xl bg-surface-container-lowest product-image-container">
+                <img alt="Premium leather footwear" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" src="{{ product.image.url }}"/>
+                
+                <!-- Badge - Responsive positioning -->
+                <div class="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-6 md:left-6">
+                    <span class="bg-secondary-container text-on-secondary-container text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest px-2 py-1 sm:px-3 sm:py-1 rounded-full">New Arrival</span>
+                </div>
+                
+                <!-- Wishlist Button -->
+                <button class="absolute top-3 right-3 sm:top-4 sm:right-4 md:top-6 md:right-6 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all group">
+                    <span class="material-symbols-outlined text-base sm:text-lg group-hover:text-white text-gray-600 dark:text-gray-300">favorite_border</span>
+                </button>
+            </div>
+            
+            <!-- Thumbnail Gallery - Responsive -->
+            <div class="grid hidden grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                <div class="rounded-lg overflow-hidden cursor-pointer border-2 border-primary">
+                    <img class="w-full h-full object-cover aspect-square" alt="thumbnail 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFRuXTNuVkUHbgUY1JlIIvIEIq0CSMq5UUrlm6KCbjBlzI3VtLovCaC2o1u_wp_TbHPRZXZIqatwX0Mk83jDzsa-6MmnuDkfG9cU75ZWoIDlqIDs-ucyU_ujeCjNU5Rropd9_b4M3SYHfZ1Yf68rBSQ-WYGdTBDGJ_CgkZjVAMjdGnRRnIa77_3UMLTh4RFUME1mslZMk4pDQJfvHy13e31mXPftYYhhcqDJDgzhRR2u508Vwu_u8YjYuoGC1TCb9u75uIoI7EJZ8e"/>
+                </div>
+                <div class="rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition">
+                    <img class="w-full h-full object-cover aspect-square" alt="thumbnail 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFRuXTNuVkUHbgUY1JlIIvIEIq0CSMq5UUrlm6KCbjBlzI3VtLovCaC2o1u_wp_TbHPRZXZIqatwX0Mk83jDzsa-6MmnuDkfG9cU75ZWoIDlqIDs-ucyU_ujeCjNU5Rropd9_b4M3SYHfZ1Yf68rBSQ-WYGdTBDGJ_CgkZjVAMjdGnRRnIa77_3UMLTh4RFUME1mslZMk4pDQJfvHy13e31mXPftYYhhcqDJDgzhRR2u508Vwu_u8YjYuoGC1TCb9u75uIoI7EJZ8e"/>
+                </div>
+                <div class="rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition">
+                    <img class="w-full h-full object-cover aspect-square" alt="thumbnail 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFRuXTNuVkUHbgUY1JlIIvIEIq0CSMq5UUrlm6KCbjBlzI3VtLovCaC2o1u_wp_TbHPRZXZIqatwX0Mk83jDzsa-6MmnuDkfG9cU75ZWoIDlqIDs-ucyU_ujeCjNU5Rropd9_b4M3SYHfZ1Yf68rBSQ-WYGdTBDGJ_CgkZjVAMjdGnRRnIa77_3UMLTh4RFUME1mslZMk4pDQJfvHy13e31mXPftYYhhcqDJDgzhRR2u508Vwu_u8YjYuoGC1TCb9u75uIoI7EJZ8e"/>
+                </div>
+                <div class="rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition relative">
+                    <img class="w-full h-full object-cover aspect-square opacity-60" alt="thumbnail 4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFRuXTNuVkUHbgUY1JlIIvIEIq0CSMq5UUrlm6KCbjBlzI3VtLovCaC2o1u_wp_TbHPRZXZIqatwX0Mk83jDzsa-6MmnuDkfG9cU75ZWoIDlqIDs-ucyU_ujeCjNU5Rropd9_b4M3SYHfZ1Yf68rBSQ-WYGdTBDGJ_CgkZjVAMjdGnRRnIa77_3UMLTh4RFUME1mslZMk4pDQJfvHy13e31mXPftYYhhcqDJDgzhRR2u508Vwu_u8YjYuoGC1TCb9u75uIoI7EJZ8e"/>
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
+                        <span class="text-white text-xs sm:text-sm font-bold">+4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Form Section - Fully Responsive Sticky -->
+        <div class="lg:col-span-5">
+            <div class="bg-surface-container-low p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl sticky-form lg:sticky lg:top-28 shadow-lg">
+                
+                <!-- Product Title Section -->
+                <div class="mb-6 md:mb-8 lg:mb-10">
+                    <h1 class="product-title text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tighter mb-2 text-on-surface">{{ product.name }}</h1>
+                    <p class="text-secondary font-medium tracking-wide text-sm sm:text-base">Edition 01 / Cobalt &amp; Earth</p>
+                    
+                    <!-- Rating Section -->
+                    <div class="flex items-center gap-2 mt-3">
+                        <div class="flex items-center">
+                            <span class="material-symbols-outlined text-yellow-500 text-sm sm:text-base fill">star</span>
+                            <span class="material-symbols-outlined text-yellow-500 text-sm sm:text-base fill">star</span>
+                            <span class="material-symbols-outlined text-yellow-500 text-sm sm:text-base fill">star</span>
+                            <span class="material-symbols-outlined text-yellow-500 text-sm sm:text-base fill">star</span>
+                            <span class="material-symbols-outlined text-yellow-500 text-sm sm:text-base fill">star_half</span>
+                        </div>
+                        <span class="text-xs sm:text-sm text-on-surface-variant">{{ reviews }} ( reviews)</span>
+                    </div>
+                </div>
+                
+          <form id="order_form" method="post">
+
+    {% csrf_token %}
+
+    
+
+
+
+
+                    <!-- Quantity and Price Row -->
+                    <input type="hidden" name="form_type" value="order">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                        <div class="space-y-1 sm:space-y-2">
+                            <label class="text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Quantity</label>
+                            <div class="relative">
+                                <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm sm:text-base"></span>
+                                <input name="qty" class="w-full bg-surface-container-high border-none rounded-lg py-2.5 sm:py-3 pl-7 sm:pl-8 pr-3 sm:pr-4 font-medium text-on-surface-variant text-sm sm:text-base" type="number" id="quantityDisplay" min="1" max="{{ product.stock }}" value="1"/>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-1 sm:space-y-2">
+                            <label class="text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Price/unit</label>
+                            <div class="relative">
+                                <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm sm:text-base">$</span>
+                                <input name="price" class="w-full bg-surface-container-high border-none rounded-lg py-2.5 sm:py-3 pl-7 sm:pl-8 pr-3 sm:pr-4 font-medium text-on-surface-variant cursor-not-allowed text-sm sm:text-base" readonly type="text" value="{{ product.price }}" id="priceDisplay"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Size Selection (Added for better UX) -->
+                    <div class="space-y-1 sm:space-y-2">
+                        <label class="text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Selected product</label>
+                        <input name="product_name" class="w-full cursor-not-allowed bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base" readonly value="{{ product.name }}" type="text"/>
+                    </div>
+                    
+                    
+                    <!-- Shipping Address -->
+                    <div class="space-y-1 sm:space-y-2">
+                        <label class="text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Shipping Address</label>
+                        <input name="address" class="w-full bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base" placeholder="City, State Address" type="text"/>
+                    </div>
+                    <div class="space-y-1 sm:space-y-2">
+                        <label class="text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Street</label>
+                        <input name="street" class="w-full bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base" placeholder="Street No#" type="text"/>
+                    </div>
+                    
+                    <!-- Email and Phone Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <div class="space-y-1 sm:space-y-2">
+                            <label class="text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Email</label>
+                            <input name="email" class="w-full bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base" placeholder="curator@radiant.com" type="email"/>
+                        </div>
+                        <div class="space-y-1 sm:space-y-2">
+                            <label class="text-[0.625rem] sm:text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Phone</label>
+                            <input name="phone" class="w-full bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-primary py-2.5 sm:py-3 px-3 sm:px-4 text-sm sm:text-base" placeholder="+1 (555) 000-0000" type="tel"/>
+                        </div>
+                    </div>
+                    
+                    <!-- Order Button -->
+                    <button type="submit" class="w-full bg-gradient-to-br from-primary-container to-primary text-on-primary font-bold py-3 sm:py-4 md:py-5 rounded-lg shadow-xl shadow-primary/20 hover:opacity-90 transition-all scale-100 active:scale-95 mt-4 text-sm sm:text-base">
+                        Ordered<span id="totalPrice"></span>
+                    </button>
+                    
+                    <p class="text-center text-[0.5625rem] sm:text-[0.625rem] text-on-surface-variant uppercase tracking-[0.2em] pt-2 sm:pt-4">
+                        Free Shipping &amp; Returns Included • Secure Checkout
+                    </p>
+                </form>
+                
+                <!-- Payment Methods -->
+                <div class="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-outline-variant/15">
+                    <span class="text-[0.5rem] sm:text-[0.625rem] text-on-surface-variant">Secure payments by</span>
+                    <div class="flex gap-1">
+                        <span class="text-xs sm:text-sm">Visa</span>
+                        <span class="text-xs sm:text-sm">Mastercard</span>
+                        <span class="text-xs sm:text-sm">PayPal</span>
+                        <span class="text-xs sm:text-sm">Apple Pay</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Comments Section - Fully Responsive Bento Grid -->
+    <section class="mt-16 sm:mt-20 md:mt-24">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 md:mb-12 gap-3 sm:gap-0">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-black tracking-tighter">Community Voice</h2>
+                <p class="text-on-surface-variant text-xs sm:text-sm mt-1 sm:mt-2">Hear from fellow curators</p>
+            </div>
+            <div class="hidden sm:block h-px flex-grow bg-surface-container-highest mx-6 md:mx-8 mb-2"></div>
+            <div class="flex space-x-2">
+                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></span>
+                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-secondary"></span>
+                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-tertiary"></span>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+            <!-- Write Comment Box -->
+            <form id="comment-form" action="" method="post">
+                <p id="comment_error" class="text-green-500 text-xs sm:text-sm">{{ comment_error }}</p>
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="comment">
+            
+            <div class="p-5 sm:p-6 rounded-xl bg-tertiary/5 border-2 border-dashed border-tertiary/20 flex flex-col justify-between hover:border-tertiary/40 transition-all">
+                <div class="space-y-3 sm:space-y-4">
+                    <p class="text-xs sm:text-sm font-bold text-tertiary uppercase tracking-widest">Share your thoughts</p>
+                    <textarea name="comment" class="w-full bg-transparent border-none focus:ring-0 p-0 text-xs sm:text-sm italic text-on-surface resize-none h-20 sm:h-24 placeholder:text-on-surface-variant/50" placeholder="Write your review or comments here..." rows="3"></textarea>
+                </div>
+                <button type="submit" class="self-end text-tertiary flex items-center space-x-1 sm:space-x-2 text-[0.625rem] sm:text-xs font-bold uppercase tracking-widest hover:opacity-70 transition-opacity mt-3 sm:mt-4">
+                    <span>Post Comment</span>
+                    <span class="material-symbols-outlined text-sm sm:text-base">arrow_forward</span>
+                </button>
+            </div>
+            </form>
+            
+            {% for i in comments %}
+                
+            
+                
+            <!-- Comment Card 1 -->
+            <div class="comment-card p-5 sm:p-6 rounded-xl bg-surface-container-lowest border border-outline-variant/15 hover:shadow-lg transition-all" >
+                <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-secondary-fixed flex items-center justify-center">
+                        <span class="material-symbols-outlined text-on-secondary-fixed text-sm sm:text-base">person</span>
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold">{{ i.relation_to_user.get_full_name }}</p>
+                        <p class="text-[0.5625rem] sm:text-[0.625rem] text-on-surface-variant uppercase tracking-widest">Verified Buyer</p>
+                    </div>
+                </div>
+                <p class="text-on-surface text-xs sm:text-sm leading-relaxed">{{ i.comment_text }}</p>
+                <div class="flex items-center gap-1 mt-3">
+                    <span class="material-symbols-outlined text-yellow-500 text-sm fill">star</span>
+                    <span class="material-symbols-outlined text-yellow-500 text-sm fill">star</span>
+                    <span class="material-symbols-outlined text-yellow-500 text-sm fill">star</span>
+                    <span class="material-symbols-outlined text-yellow-500 text-sm fill">star</span>
+                    <span class="material-symbols-outlined text-yellow-500 text-sm fill">star</span>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- Comment Card 2 -->
+        
+            
+            
+        </div>
+        
+        <!-- View All Comments Link -->
+        <div class="text-center mt-6 sm:mt-8">
+            <button class="text-primary text-xs sm:text-sm font-medium hover:underline inline-flex items-center gap-1">
+                <span>View All 247 Reviews</span>
+                <span class="material-symbols-outlined text-sm">chevron_right</span>
+            </button>
+        </div>
+    </section>
+</main>
+
+<script>
+document.getElementById('comment-form').onsubmit = function(e){
+    e.preventDefault();
+
+    const commentData = new FormData(this);
+
+    fetch('',{
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': commentData.get('csrfmiddlewaretoken')
+        },
+        body: commentData
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if (data.success) {
+            document.getElementById('comment_error').innerText = data.success;
+        } 
+        else if (data.error) {
+            document.getElementById('comment_error').innerText = data.error;
+        }
+
+    });
+};
+</script>
+<script>
+
+document.getElementById('order_form').onsubmit = function(e){
+
+    e.preventDefault();
+
+    const orderData = new FormData(this);
+
+    fetch('', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': orderData.get('csrfmiddlewaretoken')
+        },
+        body: orderData
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        let msg = document.getElementById("msg");
+        let text = document.getElementById("msg-text");
+
+        msg.style.display = "flex";
+
+        // SUCCESS
+        if (data.success){
+
+            text.innerText = data.success;
+            text.style.color = "green";
+
+        }
+
+        // ERROR
+        else if (data.error){
+
+            text.innerText = data.error;
+            text.style.color = "red";
+
+        }
+
+        // hide popup
+        setTimeout(function(){
+
+            msg.style.display = "none";
+
+        }, 2000);
+
+    });
+
+};
+
+</script>
+
+{% endblock base %}

@@ -1,0 +1,288 @@
+{% extends "saller_header_footer.html" %}
+
+{% block content %}
+
+<!-- Main Container - Full width with background -->
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 relative">
+    
+    <!-- ========== PROFESSIONAL SELLER BACKGROUND IMAGE LAYER ========== -->
+    <!-- Background Image - Only this feature added -->
+    <div class="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-300 
+                {% if not seller.background_image %}bg-gradient-to-br from-indigo-900/30 via-purple-900/30 to-pink-900/30{% endif %}"
+         id="sellerBgImage"
+         style="{% if seller.background_image %}background-image:url('{{ seller.background_image.url }}'); opacity: 0.10;{% else %}opacity: 0.10;{% endif %}">
+    </div>
+    
+    <!-- Subtle overlay for better readability -->
+    <div class="fixed inset-0 bg-gradient-to-t from-slate-900/5 to-transparent pointer-events-none"></div>
+    
+    <!-- Content Layer - Everything else stays exactly the same -->
+    <div class="relative z-10">
+        
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+            
+            <!-- Flash Messages -->
+            {% if messages %}
+                <div class="mb-6 space-y-3">
+                    {% for message in messages %}
+                        <div class="p-4 rounded-2xl backdrop-blur-sm 
+                                    {% if message.tags == 'success' %}bg-emerald-50/90 border-l-4 border-emerald-500 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300
+                                    {% elif message.tags == 'error' %}bg-red-50/90 border-l-4 border-red-500 text-red-800 dark:bg-red-950/50 dark:text-red-300
+                                    {% else %}bg-blue-50/90 border-l-4 border-blue-500 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <form method="POST" enctype="multipart/form-data" id="profileForm">
+                {% csrf_token %}
+                
+                <!-- Hero Banner Section with Background Upload -->
+                <div class="relative rounded-2xl overflow-hidden mb-8 shadow-xl">
+                    
+                    <!-- Hero Background Image Area -->
+                    <div class="relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-cover bg-center transition-all duration-300
+                                {% if not seller.background_image %}bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600{% endif %}"
+                        id="heroBackground"
+                        style="{% if seller.background_image %}background-image: url('{{ seller.background_image.url }}');{% endif %}">
+                        
+                        <!-- Dark Overlay for text readability -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                        
+                        <!-- Change Background Button -->
+                        <label for="background_image" class="absolute top-4 right-4 z-20 flex items-center gap-2 
+                                                            bg-black/40 backdrop-blur-md hover:bg-black/60 
+                                                            px-3 py-1.5 sm:px-4 sm:py-2 rounded-full 
+                                                            text-white text-xs sm:text-sm font-medium 
+                                                            border border-white/20 cursor-pointer
+                                                            transition-all duration-200 hover:scale-105">
+                            <span class="material-symbols-outlined text-sm sm:text-base">wallpaper</span>
+                            <span class="hidden xs:inline">Change Banner</span>
+                            <span class="inline xs:hidden">Banner</span>
+                        </label>
+                        <input type="file" id="background_image" name="background_image" class="hidden" accept="image/*" onchange="updateBackgroundImage(this);">
+                        
+                        <!-- Profile Avatar - Floating on Banner -->
+                        <div class="absolute -bottom-10 left-4 sm:left-6 md:left-8 z-20">
+                            <div class="relative">
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden 
+                                            border-4 border-white dark:border-slate-800 shadow-2xl 
+                                            bg-white dark:bg-slate-800">
+                                    {% if seller.image %}
+                                        <img id="profilePreview" src="{{ seller.image.url }}" class="w-full h-full object-cover">
+                                    {% else %}
+                                        <div id="profilePreview" class="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 
+                                                                    flex items-center justify-center text-white text-3xl sm:text-4xl font-bold">
+                                            {{ request.user.username|make_list|first|upper }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <!-- Edit Avatar Button -->
+                                <label for="profile_image" class="absolute -bottom-1 -right-1 p-1.5 sm:p-2 
+                                                                bg-indigo-600 hover:bg-indigo-700 
+                                                                rounded-full shadow-lg cursor-pointer
+                                                                transition-all duration-200 hover:scale-110">
+                                    <span class="material-symbols-outlined text-white text-xs sm:text-sm">edit</span>
+                                </label>
+                                <input type="file" id="profile_image" name="image" class="hidden" accept="image/*" onchange="previewProfileImage(this);">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Info Panel -->
+                    <div class="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm pt-14 pb-5 px-4 sm:px-6 md:px-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                                    {{ request.user.username }}
+                                </h1>
+                                <div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-2">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
+                                                    bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+                                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">verified</span>
+                                        Verified Seller
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-sm">storefront</span>
+                                        {{ seller.shop_name|default:"Your Store" }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-wrap gap-3 sm:gap-5 mt-3 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">calendar_today</span>
+                                        Joined {{ request.user.date_joined|date:"M Y" }}
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">email</span>
+                                        {{ request.user.email }}
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">star</span>
+                                        Rating: {{ seller_rating|default:"4.9" }} ★
+                                    </span>
+                                </div>
+                            </div>
+                            <button type="submit" name="update_profile" 
+                                    class="flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm
+                                            bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700
+                                        text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
+                                <span class="material-symbols-outlined text-sm">save</span>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabs Section - Using Tailwind Only -->
+                <div class="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
+                    
+                    <!-- Tab Headers -->
+                    <div class="flex flex-wrap gap-1 border-b border-slate-200 dark:border-slate-700 px-4 pt-3">
+                        <button type="button" data-tab="account" 
+                                class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-xl font-semibold text-sm
+                                    text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400
+                                    transition-all duration-200">
+                            <span class="material-symbols-outlined text-sm">person</span>
+                            Account
+                        </button>
+                        <button type="button" data-tab="security" 
+                                class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-xl font-semibold text-sm
+                                       text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400
+                                       transition-all duration-200">
+                            <span class="material-symbols-outlined text-sm">security</span>
+                            Security
+                        </button>
+                        <button type="button" data-tab="store" 
+                                class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-xl font-semibold text-sm
+                                       text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400
+                                       transition-all duration-200">
+                            <span class="material-symbols-outlined text-sm">store</span>
+                            Store Info
+                        </button>
+                    </div>
+                    
+                    <!-- Tab Pane: Account -->
+                    <div class="tab-pane p-5 sm:p-6 md:p-8" id="tab-account">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
+                                <input type="text" name="username" value="{{ request.user.username }}"
+                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                              bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                              text-slate-900 dark:text-white text-sm transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
+                                <input type="email" name="email" value="{{ request.user.email }}"
+                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                              bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                              text-slate-900 dark:text-white text-sm transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
+                                <input type="text" name="phone" value="{{ seller.phone|default:'' }}"
+                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                              bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                              text-slate-900 dark:text-white text-sm transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Location</label>
+                                <input type="text" name="location" value="{{ seller.location|default:'' }}" placeholder="City, Country"
+                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                              bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                              text-slate-900 dark:text-white text-sm transition-all">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Pane: Security -->
+                    <div class="tab-pane hidden p-5 sm:p-6 md:p-8" id="tab-security">
+                        <div class="space-y-5 max-w-lg">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Current Password</label>
+                                <input type="password" name="old_password" id="oldPwd"
+                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                              bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                              text-slate-900 dark:text-white text-sm transition-all"
+                                       placeholder="••••••••">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">New Password</label>
+                                    <input type="password" name="new_password1" id="newPwd1"
+                                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                                  bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                                  text-slate-900 dark:text-white text-sm transition-all"
+                                           placeholder="••••••••">
+                                    <p class="text-xs text-slate-400 mt-1.5">Minimum 8 characters</p>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Confirm Password</label>
+                                    <input type="password" name="new_password2" id="newPwd2"
+                                           class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                                  bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                                  text-slate-900 dark:text-white text-sm transition-all"
+                                           placeholder="••••••••">
+                                    <div id="pwdError" class="text-xs text-red-500 mt-1.5 hidden">Passwords do not match</div>
+                                </div>
+                            </div>
+                            <button type="submit" name="change_password"
+                                    class="mt-2 px-5 py-2.5 rounded-xl bg-slate-800 dark:bg-slate-700 
+                                           text-white font-semibold text-sm hover:bg-slate-700 dark:hover:bg-slate-600
+                                           transition-all duration-200">
+                                Update Password
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Pane: Store Info -->
+                    <div class="tab-pane hidden p-5 sm:p-6 md:p-8" id="tab-store">
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Store Name</label>
+                                <input type="text" name="shop_name" value="{{ seller.shop_name|default:'' }}"
+                                       class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                              bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                              text-slate-900 dark:text-white text-sm transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Store Biography</label>
+                                <textarea name="bio" rows="4"
+                                          class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 
+                                                 bg-slate-50/50 dark:bg-slate-900/50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500
+                                                 text-slate-900 dark:text-white text-sm transition-all resize-none">{{ seller.bio|default:'' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Metrics Cards Row -->
+                <br>
+                    
+                    <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center border border-slate-200/50 dark:border-slate-700/50">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-amber-500">{{ seller_rating|default:"4.9" }} ★</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Seller Rating</div>
+                    </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Additional responsive style for extra small screens -->
+<style>
+    @media (max-width: 480px) {
+        .xs\:inline { display: inline; }
+    }
+    @media (min-width: 481px) {
+        .xs\:inline { display: none; }
+    }
+    .tab-btn {
+        transition: all 0.2s ease;
+    }
+</style>
+
+{% endblock content %}

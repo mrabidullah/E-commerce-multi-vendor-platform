@@ -1,0 +1,386 @@
+{% extends "header_footer.html" %}
+
+{% block base %}
+
+<style>
+/* Additional custom styles for product page */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: #f9f9f9;
+}
+
+/* Custom color variables */
+:root {
+    --primary-gold: #fbbf24;
+    --primary-orange: #a63c00;
+    --primary-orange-light: #c44d1a;
+    --primary-orange-dark: #8a3300;
+}
+
+/* Sticky form behavior */
+@media (min-width: 1024px) {
+    .sticky-form {
+        position: sticky;
+        top: 100px;
+    }
+}
+
+/* Gallery thumbnail */
+.gallery-thumb {
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+}
+.gallery-thumb:hover {
+    opacity: 0.8;
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Horizontal scroll container - with auto scroll */
+.horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+/* Custom scrollbar styling */
+.horizontal-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.horizontal-scroll::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+.horizontal-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.horizontal-scroll::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Product card styling */
+.product-card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Card widths responsive */
+.card-width {
+    width: 160px;
+}
+@media (min-width: 480px) {
+    .card-width { width: 180px; }
+}
+@media (min-width: 640px) {
+    .card-width { width: 200px; }
+}
+@media (min-width: 768px) {
+    .card-width { width: 220px; }
+}
+@media (min-width: 1024px) {
+    .card-width { width: 240px; }
+}
+@media (min-width: 1280px) {
+    .card-width { width: 260px; }
+}
+
+/* Pause animation on hover */
+.horizontal-scroll.paused {
+    animation-play-state: paused !important;
+}
+
+/* Auto scroll animation */
+@keyframes autoScroll {
+    0% {
+        transform: translateX();
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.auto-scroll-animation {
+    animation: autoScroll ; linear infinite;
+     animation-duration: 18s; /* Adjust duration for speed */
+}
+
+.auto-scroll-animation:hover {
+    animation-play-state: paused;
+}
+</style>
+
+<!-- Main Content -->
+<main class="mt-24 sm:mt-32 md:mt-44 lg:mt-52 product-main pb-12 sm:pb-16 md:pb-20">
+    
+    <!-- Product Hero Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 mb-12 sm:mb-16 md:mb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+            
+            <!-- Large Product Image -->
+            <div class="lg:col-span-7">
+                <div class="relative overflow-hidden rounded-2xl aspect-[4/5] md:aspect-square lg:aspect-[4/5] group bg-gray-100">
+                    <img id="mainProductImage" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" alt="{{ product.name }}" src="{{ product.image.url }}">
+                    
+                    <!-- Badge -->
+                    <div class="absolute top-3 left-3 sm:top-4 sm:left-4 z-10">
+                        <span class="bg-amber-100 text-amber-800 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-sm">New Arrival</span>
+                    </div>
+                    
+                    <!-- Wishlist Button -->
+                    <button class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-[#a63c00] hover:text-white transition-all group z-10 shadow-md">
+                        <span class="material-symbols-outlined text-base sm:text-lg group-hover:text-white text-gray-700">favorite_border</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Product Info & Actions -->
+            <div class="lg:col-span-5">
+                <div class="sticky-form flex flex-col justify-center">
+                    <div class="mb-2">
+                        <span class="text-[#a63c00] font-bold text-xs sm:text-sm tracking-widest uppercase">{{ product.category|default:"Premium Collection" }}</span>
+                    </div>
+                    
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight">
+                        {{ product.name }}
+                    </h1>
+                    
+                    <!-- Price and Rating -->
+                    <div class="flex flex-wrap items-center gap-3 sm:gap-4 mb-5 sm:mb-6">
+                        <span class="text-3xl sm:text-4xl font-bold text-[#a63c00]">Rs.{{ product.price|floatformat:0 }}</span>
+                        <div class="flex items-center gap-1">
+                            <div class="flex text-[#fbbf24]">
+                                <span class="material-symbols-outlined text-sm sm:text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm sm:text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm sm:text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm sm:text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm sm:text-base">star_half</span>
+                            </div>
+                            <span class="text-gray-500 text-xs sm:text-sm font-medium ml-1">({{ reviews_count|default:0 }}) Reviews</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
+                        {{ product.description|truncatechars:200 }}
+                    </p>
+                    
+                    <!-- CTA Group -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="{% url 'order_page' product.category product.id %}" class="flex-1">
+                            <button class="w-full bg-[#a63c00] hover:bg-[#8a3300] text-white font-bold py-3 sm:py-4 px-5 sm:px-6 rounded-xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all text-center text-sm sm:text-base">
+                                Order Now →
+                            </button>
+                        </a>
+                        <button class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 p-3 sm:p-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                            <span class="material-symbols-outlined text-lg sm:text-xl">favorite</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Trust Bar -->
+                    <div class="mt-6 sm:mt-8 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl flex flex-wrap items-center gap-3 sm:gap-4">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[#a63c00] text-sm sm:text-base">local_shipping</span>
+                            <span class="text-[10px] sm:text-xs font-semibold text-gray-600 dark:text-gray-400">Free Express Shipping</span>
+                        </div>
+                        <div class="hidden sm:block w-px h-5 bg-gray-300"></div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[#a63c00] text-sm sm:text-base">verified_user</span>
+                            <span class="text-[10px] sm:text-xs font-semibold text-gray-600 dark:text-gray-400">Authentic Guarantee</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Product Features -->
+    <section class="bg-gray-50 dark:bg-gray-900/50 py-10 sm:py-12 md:py-16 mb-10 sm:mb-12 md:mb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div class="bg-white dark:bg-gray-800 p-5 sm:p-6 md:p-8 rounded-xl transition-all hover:shadow-lg">
+                    <span class="material-symbols-outlined text-3xl sm:text-4xl text-[#a63c00] mb-3 sm:mb-4">workspace_premium</span>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Premium Quality</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed">Highest quality materials and craftsmanship guaranteed.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-5 sm:p-6 md:p-8 rounded-xl transition-all hover:shadow-lg">
+                    <span class="material-symbols-outlined text-3xl sm:text-4xl text-[#a63c00] mb-3 sm:mb-4">support_agent</span>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">24/7 Support</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed">Dedicated customer support ready to assist you.</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-5 sm:p-6 md:p-8 rounded-xl transition-all hover:shadow-lg">
+                    <span class="material-symbols-outlined text-3xl sm:text-4xl text-[#a63c00] mb-3 sm:mb-4">verified</span>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Trusted Seller</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed">Verified seller with thousands of happy customers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Customer Reviews Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 mb-12 sm:mb-16 md:mb-20">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 sm:mb-8 gap-3 sm:gap-4">
+            <div>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 " >
+                    Customer Reviews
+                </h2>
+                <p class="text-gray-500 text-xs sm:text-sm">What our community thinks about this product.</p>
+            </div>
+            
+        </div>
+
+        <!-- Comments -->
+        <div class="space-y-4 sm:space-y-5">
+            {% for comment in comments %}
+            <div class="bg-white dark:bg-gray-800 p-4 sm:p-5 md:p-6 rounded-xl flex flex-col md:flex-row gap-3 md:gap-4 transition-all hover:shadow-md">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0">
+                    <img class="w-full h-full object-cover" alt="user" src="https://ui-avatars.com/api/?name={{ comment.relation_to_user.username }}"/>
+                </div>
+                <div class="flex-1">
+                    <div class="flex flex-wrap justify-between items-start gap-1 mb-2">
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base text-gray-900 dark:text-white">{{ comment.relation_to_user.username }}</h4>
+                            <div class="flex text-[#fbbf24] mt-0.5">
+                                <span class="material-symbols-outlined text-xs sm:text-sm" style="font-variation-settings:'FILL'1">star</span>
+                                <span class="material-symbols-outlined text-xs sm:text-sm" style="font-variation-settings:'FILL'1">star</span>
+                                <span class="material-symbols-outlined text-xs sm:text-sm" style="font-variation-settings:'FILL'1">star</span>
+                                <span class="material-symbols-outlined text-xs sm:text-sm" style="font-variation-settings:'FILL'1">star</span>
+                                <span class="material-symbols-outlined text-xs sm:text-sm">star</span>
+                            </div>
+                        </div>
+                        <span class="text-gray-500 text-[10px] sm:text-xs">{{ comment.created_time|timesince }} ago</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed italic">"{{ comment.comment_text }}"</p>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-sm text-gray-500">No reviews yet. Be the first to write one!</p>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <!-- ========== RELATED PRODUCTS - AUTO SCROLLING CAROUSEL ========== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+        <div class="flex justify-between items-center mb-6 sm:mb-8">
+            <div>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    You May Also Like
+                </h2>
+                <p class="text-gray-500 text-xs sm:text-sm mt-1">All related products</p>
+            </div>
+            <!-- Control Buttons -->
+         
+        </div>
+        
+        <!-- Horizontal Auto-Scroll Container -->
+        <div class="relative overflow-hidden">
+            <div id="autoScrollContainer" class="horizontal-scroll scrollbar-hide pb-4 auto-scroll-animation">
+                <!-- Products for seamless loop -->
+            {% for related in related_products %}
+            <!-- Product Card - Using the second design pattern -->
+            <div class="product-card card-width group bg-white dark:bg-[#1e1e1e] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all">
+                
+                <!-- Product Image Container -->
+                <div class="relative bg-gray-100 rounded-xl overflow-hidden aspect-[4/5] m-2">
+                    {% if related.image %}
+                    <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded" 
+                         src="{{ related.image.url }}" 
+                         alt="{{ related.name }}">
+                    {% else %}
+                    <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded" 
+                         src="https://placehold.co/400x500/e2e8f0/64748b?text=No+Image" 
+                         alt="{{ related.name }}">
+                    {% endif %}
+                    
+                    <!-- Category Badge -->
+                    <div class="absolute top-2 left-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-bold uppercase text-[#a63c00]">
+                        {{ related.category|default:product.category|truncatechars:10 }}
+                    </div>
+                    
+                    <!-- Stock Badge -->
+                    {% if related.stock > 0 %}
+                        {% if related.stock < 5 %}
+                        <div class="absolute top-2 right-2 bg-amber-500 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
+                            {{ related.stock }} left
+                        </div>
+                        {% else %}
+                        <div class="absolute top-2 right-2 bg-green-600 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
+                            In Stock
+                        </div>
+                        {% endif %}
+                    {% else %}
+                    <div class="absolute top-2 right-2 bg-red-600 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">
+                        Out of Stock
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Product Info -->
+                <div class="p-1.5 sm:p-2.5 pt-0">
+                    <div class="flex justify-between items-start gap-1">
+                        <h3 class="sm:font-semibold text-gray-900 dark:text-white leading-tight text-xs line-clamp-2">
+                            {{ related.name|truncatechars:35 }}
+                        </h3>
+                        <div class="text-xs sm:font-bold text-[#a63c00] whitespace-nowrap">
+                            Rs.{{ related.price|floatformat:0 }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center gap-x-1">
+                            <span class="material-symbols-outlined text-[10px] text-[#fbbf24]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="text-[9px] font-medium text-gray-500 dark:text-gray-400">
+                                {{ related.brand|default:"Premium" }}
+                            </span>
+                        </div>
+                        <div class="text-[9px] text-gray-500 dark:text-gray-400">
+                            Stock: {{ related.stock }}
+                        </div>
+                    </div>
+
+                    <a href="{% url 'product_detail' related.category related.id %}">
+                        <button class="w-full mt-2 py-1.5 bg-[#a63c00]/10 text-[#a63c00] rounded-md text-[10px] font-semibold hover:bg-[#a63c00] hover:text-white transition-all">
+                            Quick Shop
+                        </button>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <!-- No products message -->
+            <div class="col-span-full text-center py-12">
+                <span class="material-symbols-outlined text-5xl text-gray-400">inventory_2</span>
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mt-3">No related products</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Check back later for more recommendations</p>
+            </div>
+            {% endfor %}
+            
+            <!-- Duplicate for seamless infinite scroll -->
+                          
+
+            </div>
+        </div>
+    </section>
+</main>
+
+
+
+{% endblock base %}
